@@ -116,7 +116,7 @@ class Event extends \yii\db\ActiveRecord
             'state' => 'State',
             'zipcode' => 'Zipcode',
             'county' => 'County',
-            'isAtOrgAddress' => 'Is this the organization\'s address?',
+            'isAtOrgAddress' => 'On premises?',
             'fkPersonID' => 'Event Contact',
             'otherType' => 'Other Type',
             'fkEventAgeID' => 'Event Age Group',

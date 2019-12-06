@@ -53,9 +53,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'city',
             [
                 'attribute' => 'fkPersonID',
+                'label' => 'Contact',
                 'value' => function($data) {
                     $url = Yii::$app->urlManager->createURL(['person/view', 'id' => $data->contact->pkPersonID ]);
                     return "<a href='$url'>{$data->contact->firstName} {$data->contact->lastName}</a>";
+                },
+                'format' => 'raw'
+            ],
+            [
+                'label' => 'Instructor(s)',
+                'value' => function($data) {
+                    return $data->staffingString;
                 },
                 'format' => 'raw'
             ],

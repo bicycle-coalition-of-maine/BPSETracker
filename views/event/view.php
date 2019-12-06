@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'isBike:boolean',
             'isPed:boolean',
             [
-                'label' => 'Staffing',
+                'label' => 'Instructor(s)',
                 'format' => 'raw',
                 'value' => function($data) {
                     $returnList = array();

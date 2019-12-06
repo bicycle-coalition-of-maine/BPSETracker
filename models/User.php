@@ -73,7 +73,7 @@ class User extends \app\models\Person implements \yii\web\IdentityInterface
     public static function findByUsername($username)
     {
         $identity = self::findOne(['email' => $username]);
-        $identity->username = $identity->email;
+        if($identity) $identity->username = $identity->email;
         return $identity;
 //        foreach (self::$users as $user) {
 //            if (strcasecmp($user['username'], $username) === 0) {

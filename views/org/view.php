@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'raw'
                     ],
                     [
-                        'label' => 'Staffing',
+                        'label' => 'Instructor',
                         'value' => function($data) {
                             return $data->staffingString;
                         },

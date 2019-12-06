@@ -50,7 +50,7 @@ class Person extends ActiveRecord //implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['firstName', 'lastName', 'email', 'phone'], 'required'],
+            [['firstName', 'lastName'], 'required'],
             [['isStaff', 'isContact', 'isActive', 'isAdmin'], 'boolean'],
             [['firstName', 'phone'], 'string', 'max' => 20],
             [['lastName', 'address1', 'address2', 'city'], 'string', 'max' => 40],
@@ -115,8 +115,9 @@ class Person extends ActiveRecord //implements \yii\web\IdentityInterface
      */
     public function getEvents()
     {
-        //return $this->hasMany(Event::className(), ['fkPersonID' => 'pkPersonID']);
-        return $this->hasMany(Event::className(), ['pkEventID' => 'fkEventID'])->viaTable('staffing', ['fkPersonID' => 'pkPersonID']);
+        return $this->hasMany(Event::className(), ['pkEventID' => 'fkEventID'])
+                ->viaTable('staffing', ['fkPersonID' => 'pkPersonID'])
+                ->orderBy('eventDate DESC, requestDateTime DESC');
 
     }
 

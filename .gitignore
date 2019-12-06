@@ -1,6 +1,9 @@
 # phpstorm project files
 .idea
 
+# Yii runtime files
+runtime
+
 # netbeans project files
 nbproject
 

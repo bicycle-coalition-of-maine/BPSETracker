@@ -16,16 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `EventReporting`
---
-
-/*!40000 DROP DATABASE IF EXISTS `EventReporting`*/;
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventreporting` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
-USE `EventReporting`;
-
---
 -- Table structure for table `city_county`
 --
 
@@ -120,7 +110,7 @@ CREATE TABLE `event` (
   CONSTRAINT `fkEvent2Instr` FOREIGN KEY (`fkInstructorId`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkEvent2Org` FOREIGN KEY (`fkOrgID`) REFERENCES `organization` (`pkOrgID`),
   CONSTRAINT `fkEvent2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1037 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,7 +157,7 @@ CREATE TABLE `event_setting` (
   `sequence` smallint(6) DEFAULT NULL,
   `eventSetting` varchar(40) NOT NULL,
   PRIMARY KEY (`pkEventSettingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +173,7 @@ CREATE TABLE `event_type` (
   `eventType` varchar(40) NOT NULL,
   `description` varchar(1024) NOT NULL,
   PRIMARY KEY (`pkEventTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +233,7 @@ DROP TABLE IF EXISTS `instructor_info`;
 CREATE TABLE `instructor_info` (
   `pkInstructorInfo` smallint(6) NOT NULL AUTO_INCREMENT,
   `fkPersonID` smallint(6) NOT NULL,
-  `year` tinyint(4) NOT NULL,
+  `year` smallint(6) NOT NULL,
   `fkInstStatus` smallint(6) DEFAULT NULL,
   `availability_other` varchar(120) DEFAULT NULL,
   `fkInstLCI` smallint(6) DEFAULT NULL,
@@ -264,7 +254,7 @@ CREATE TABLE `instructor_info` (
   CONSTRAINT `fkInfo2Status` FOREIGN KEY (`fkInstStatus`) REFERENCES `instructor_status` (`pkInstructorStatus`),
   CONSTRAINT `fkInst2Mechanical` FOREIGN KEY (`fkInstMechanical`) REFERENCES `instructor_mechanical` (`pkInstructorMechanical`),
   CONSTRAINT `fkInst2Medical` FOREIGN KEY (`fkInstMedical`) REFERENCES `instructor_medical` (`pkInstructorMedical`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -379,7 +369,7 @@ CREATE TABLE `instructor_medical` (
   `instructorMedical` varchar(120) NOT NULL,
   `isActive` bit(1) DEFAULT b'0',
   PRIMARY KEY (`pkInstructorMedical`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -394,7 +384,7 @@ CREATE TABLE `instructor_ridetype` (
   `instructorRideType` varchar(120) NOT NULL,
   `isActive` bit(1) DEFAULT b'1',
   PRIMARY KEY (`pkInstructorRideType`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -409,7 +399,7 @@ CREATE TABLE `instructor_status` (
   `instructorStatus` varchar(120) NOT NULL,
   `isActive` bit(1) DEFAULT b'1',
   PRIMARY KEY (`pkInstructorStatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -427,8 +417,8 @@ CREATE TABLE `invoice` (
   `hours` tinyint(4) NOT NULL,
   `hourlyrate` decimal(4,2) DEFAULT NULL,
   `presentations` tinyint(4) NOT NULL,
-  `presentees` tinyint(4) NOT NULL,
-  `miles` tinyint(4) NOT NULL DEFAULT '0',
+  `presentees` smallint(6) NOT NULL,
+  `miles` smallint(6) NOT NULL DEFAULT '0',
   `milesPurpose` varchar(100) DEFAULT NULL,
   `invoiceAmount` decimal(6,2) NOT NULL,
   `approveDate` datetime DEFAULT NULL,
@@ -445,7 +435,7 @@ CREATE TABLE `invoice` (
   CONSTRAINT `fkInvoice2Event` FOREIGN KEY (`fkEventID`) REFERENCES `event` (`pkEventID`),
   CONSTRAINT `fkInvoice2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkInvoice2Rate` FOREIGN KEY (`fkRateRequested`) REFERENCES `rate` (`pkRateID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -479,7 +469,7 @@ CREATE TABLE `organization` (
   `zipcode` varchar(10) DEFAULT NULL,
   `county` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`pkOrgID`)
-) ENGINE=InnoDB AUTO_INCREMENT=258 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=464 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -508,7 +498,7 @@ CREATE TABLE `person` (
   `isAdmin` bit(1) NOT NULL DEFAULT b'0',
   `password` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1469 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -524,7 +514,7 @@ CREATE TABLE `rate` (
   `rate` decimal(4,2) DEFAULT NULL,
   `isActive` bit(1) DEFAULT b'1',
   PRIMARY KEY (`pkRateID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -543,7 +533,7 @@ CREATE TABLE `staffing` (
   KEY `fkStaffing2Person` (`fkPersonID`),
   CONSTRAINT `fkStaffing2Event` FOREIGN KEY (`fkEventID`) REFERENCES `event` (`pkEventID`),
   CONSTRAINT `fkStaffing2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -555,4 +545,4 @@ CREATE TABLE `staffing` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-19 21:21:11
+-- Dump completed on 2019-12-06 15:59:07

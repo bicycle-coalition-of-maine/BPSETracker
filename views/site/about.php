@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
         the Bicycle Coalition of Maine with tracking, invoicing, and reporting
         on BPSE events. The source code is owned by the Bicycle Coalition of
         Maine, and is stored in 
-        <a href='https://github.com/bicycle-coalition-of-maine/BPSETracker'>this 
+        <a target='_blank' href='https://github.com/bicycle-coalition-of-maine/BPSETracker'>this 
         GitHub repository</a>. The repository also includes the current 
-        <a href='https://github.com/bicycle-coalition-of-maine/BPSETracker/issues'>Issues 
+        <a target='_blank' href='https://github.com/bicycle-coalition-of-maine/BPSETracker/issues'>Issues 
         List</a>, and a 
-        <a href='https://github.com/bicycle-coalition-of-maine/BPSETracker/wiki'>Wiki</a> 
+        <a target='_blank' href='https://github.com/bicycle-coalition-of-maine/BPSETracker/wiki'>Wiki</a> 
         of mostly technical information.
         
     </p>

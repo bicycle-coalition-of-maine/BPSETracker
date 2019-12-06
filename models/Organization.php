@@ -75,7 +75,7 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getPeople()
     {
-        return $this->hasMany(Person::className(), ['pkPersonID' => 'fkPersonID'])->viaTable('contact', ['fkOrgID' => 'pkOrgID']);
+        return $this->hasMany(Person::className(), ['pkPersonID' => 'fkPersonID'])->viaTable('contact', ['fkOrgID' => 'pkOrgID'])->orderBy('lastName, firstName');
     }
 
     /**
@@ -83,7 +83,8 @@ class Organization extends \yii\db\ActiveRecord
      */
     public function getEvents()
     {
-        return $this->hasMany(Event::className(), ['fkOrgID' => 'pkOrgID']);
+        return $this->hasMany(Event::className(), ['fkOrgID' => 'pkOrgID'])
+                ->orderBy('eventDate DESC, requestDateTime DESC');
     }
 	
     /**

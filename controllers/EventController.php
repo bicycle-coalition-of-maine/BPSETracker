@@ -69,8 +69,7 @@ class EventController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Event::find()
-			   //->where('YEAR(requestDateTime) >= 2018') //  For development, limit to 2018-9
-                           ->orderBy('requestDateTime DESC')
+                           ->orderBy('EventDate DESC, requestDateTime DESC')
         ]);
 
         return $this->render('index', [
