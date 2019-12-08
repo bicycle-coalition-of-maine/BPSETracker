@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\InstructorRideType;
+use app\models\InstructorRidetype;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

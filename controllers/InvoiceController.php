@@ -9,12 +9,12 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use app\Models\Invoice;
-use app\Models\Person;
-use app\Models\Contact;
-use app\Models\Rate;
+use app\models\Invoice;
+use app\models\Person;
+use app\models\Contact;
+use app\models\Rate;
 use app\models\Mileage;
-use app\Models\Config;
+use app\models\Config;
 
 /**
  * InvoiceController implements the CRUD actions for Invoice model.

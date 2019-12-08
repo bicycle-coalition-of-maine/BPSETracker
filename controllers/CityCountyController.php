@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\Models\CityCounty;
+use app\models\CityCounty;
 use app\models\CityCountySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

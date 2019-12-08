@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use Yii;
-use app\Models\Rate;
+use app\models\Rate;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
