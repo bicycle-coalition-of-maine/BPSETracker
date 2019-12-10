@@ -65,12 +65,18 @@ class PersonSearch extends Person
 
         // Filter just instructors or just contacts
         if(isset($params['show']))
-        {
-            $query->andFilterWhere([
-            'isStaff' => ($params['show'] != 'C'),
-            'isContact' => ($params['show'] != 'I'),            
-            ]);
-        }
+            switch($params['show'])
+            {
+                case 'C':
+                    $query->andFilterWhere(['isContact' => 1 ]);
+                    break;
+                case 'I':
+                    $query->andFilterWhere(['isStaff' => 1 ]);
+                    break;
+                case 'A':
+                    $query->andFilterWhere(['isAdmin' => 1 ]);
+                    break;
+            }
 
         // grid filtering conditions
         $query->andFilterWhere(['pkPersonID' => $this->pkPersonID,])

@@ -39,12 +39,6 @@ class PersonController extends Controller
         $searchModel = new PersonSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
-//        if(Yii::$app->request->get('show') == 'C' )
-//            $dataProvider = $dataProvider->where("isContact = b`1`");
-//
-//        if(Yii::$app->request->get('show') != 'I')
-//            $dataProvider = $dataProvider->where("isStaff = b`1`");
-        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

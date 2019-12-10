@@ -13,17 +13,23 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="person-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?php
             $checkInst = ( Yii::$app->request->get('show') == 'I' ? " checked" : "" );
             $checkContact = ( Yii::$app->request->get('show') == 'C' ? " checked" : "" );
-            $checkBoth = ( Yii::$app->request->get('show') != 'I' && Yii::$app->request->get('show') != 'C' ? " checked" : "" );
+            $checkAdmin = ( Yii::$app->request->get('show') == 'A' ? " checked" : "" );
+            $checkAll = ( Yii::$app->request->get('show') != 'I' 
+                            && Yii::$app->request->get('show') != 'C'
+                            && Yii::$app->request->get('show') != 'A'
+                          ? " checked" 
+                          : "" 
+                        );
         ?>
         <label class="radio-inline"><input type="radio" name="show" value="I" <?= $checkInst ?> onchange="javascript:window.location.href='/index.php?r=person&show=I';">Instructors</label>
         <label class="radio-inline"><input type="radio" name="show" value="C" <?= $checkContact ?> onchange="javascript:window.location.href='/index.php?r=person&show=C';">Contacts</label>
-        <label class="radio-inline"><input type="radio" name="show" value="B" <?= $checkBoth ?> onchange="javascript:window.location.href='/index.php?r=person';">Everyone</label>
+        <label class="radio-inline"><input type="radio" name="show" value="A" <?= $checkAdmin ?> onchange="javascript:window.location.href='/index.php?r=person&show=A';">Admins</label>
+        <label class="radio-inline"><input type="radio" name="show" value="B" <?= $checkAll ?> onchange="javascript:window.location.href='/index.php?r=person';">Everyone</label>
     </p>
     
     <p>
