@@ -81,7 +81,7 @@ class PersonSearch extends Person
         // grid filtering conditions
         $query->andFilterWhere(['pkPersonID' => $this->pkPersonID,])
             ->andFilterWhere(['like', 'lastName', $this->lastName])
-            ->andFilterWhere(['like', 'lastName', $this->lastName])
+            ->andFilterWhere(['like', 'firstName', $this->firstName])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'phoneExt', $this->phoneExt])
