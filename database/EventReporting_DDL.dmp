@@ -77,7 +77,7 @@ CREATE TABLE `event` (
   `requestDateTime` datetime NOT NULL,
   `fkOrgID` smallint(6) NOT NULL,
   `isAtOrgAddress` bit(1) DEFAULT b'1',
-  `address1` varchar(40) NOT NULL,
+  `address1` varchar(40) DEFAULT NULL,
   `address2` varchar(40) DEFAULT NULL,
   `city` varchar(40) NOT NULL,
   `state` char(2) NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE `event` (
   CONSTRAINT `fkEvent2Instr` FOREIGN KEY (`fkInstructorId`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkEvent2Org` FOREIGN KEY (`fkOrgID`) REFERENCES `organization` (`pkOrgID`),
   CONSTRAINT `fkEvent2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=335 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=920 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `event_type` (
   `description` varchar(1024) NOT NULL,
   `isPublic` bit(1) DEFAULT NULL,
   PRIMARY KEY (`pkEventTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +223,7 @@ CREATE TABLE `instructor_availability` (
   `instructorAvailability` varchar(120) NOT NULL,
   `isActive` bit(1) DEFAULT b'1',
   PRIMARY KEY (`pkInstructorAvailability`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -501,7 +501,7 @@ CREATE TABLE `person` (
   `isAdmin` bit(1) NOT NULL DEFAULT b'0',
   `password` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=487 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=488 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -548,4 +548,4 @@ CREATE TABLE `staffing` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-18 22:07:36
+-- Dump completed on 2019-12-28 14:34:38
