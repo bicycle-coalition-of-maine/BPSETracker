@@ -101,6 +101,8 @@ CREATE TABLE `event` (
   `isBike` bit(1) DEFAULT b'1',
   `isPed` bit(1) DEFAULT b'1',
   `fkInstructorId` smallint(6) DEFAULT NULL,
+  `participation_actual` smallint(6) DEFAULT NULL,
+  `presentations_actual` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`pkEventID`),
   KEY `fkEvent2Org` (`fkOrgID`),
   KEY `fkEvent2Person` (`fkPersonID`),
@@ -110,7 +112,7 @@ CREATE TABLE `event` (
   CONSTRAINT `fkEvent2Instr` FOREIGN KEY (`fkInstructorId`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkEvent2Org` FOREIGN KEY (`fkOrgID`) REFERENCES `organization` (`pkOrgID`),
   CONSTRAINT `fkEvent2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=335 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,8 +174,9 @@ CREATE TABLE `event_type` (
   `sequence` smallint(6) NOT NULL,
   `eventType` varchar(40) NOT NULL,
   `description` varchar(1024) NOT NULL,
+  `isPublic` bit(1) DEFAULT NULL,
   PRIMARY KEY (`pkEventTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +223,7 @@ CREATE TABLE `instructor_availability` (
   `instructorAvailability` varchar(120) NOT NULL,
   `isActive` bit(1) DEFAULT b'1',
   PRIMARY KEY (`pkInstructorAvailability`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -484,7 +487,7 @@ CREATE TABLE `person` (
   `firstName` varchar(20) NOT NULL,
   `lastName` varchar(40) NOT NULL,
   `email` varchar(80) NOT NULL,
-  `phone` varchar(20) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `phoneExt` varchar(4) DEFAULT NULL,
   `address1` varchar(40) DEFAULT NULL,
   `address2` varchar(40) DEFAULT NULL,
@@ -498,7 +501,7 @@ CREATE TABLE `person` (
   `isAdmin` bit(1) NOT NULL DEFAULT b'0',
   `password` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=487 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,7 +536,7 @@ CREATE TABLE `staffing` (
   KEY `fkStaffing2Person` (`fkPersonID`),
   CONSTRAINT `fkStaffing2Event` FOREIGN KEY (`fkEventID`) REFERENCES `event` (`pkEventID`),
   CONSTRAINT `fkStaffing2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -545,4 +548,4 @@ CREATE TABLE `staffing` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-06 15:59:07
+-- Dump completed on 2019-12-18 22:07:36
