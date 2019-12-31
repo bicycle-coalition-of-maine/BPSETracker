@@ -33,6 +33,7 @@ class EventType extends \yii\db\ActiveRecord
         return [
             [['sequence', 'eventType', 'description'], 'required'],
             [['sequence'], 'integer'],
+            [['isPublic'], 'boolean'],
             [['eventType'], 'string', 'max' => 40],
             [['description'], 'string', 'max' => 1024],
         ];
@@ -48,6 +49,7 @@ class EventType extends \yii\db\ActiveRecord
             'sequence' => 'Sequence',
             'eventType' => 'Event Type',
             'description' => 'Description',
+            'isPublic' => 'Public?'
         ];
     }
 
@@ -58,12 +60,4 @@ class EventType extends \yii\db\ActiveRecord
     {
         return $this->hasMany(EventEventType::className(), ['fkEventTypeID' => 'pkEventTypeID']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-//    public function getFkEvents()
-//    {
-//        return $this->hasMany(Event::className(), ['pkEventID' => 'fkEventID'])->viaTable('event_event_type', ['fkEventTypeID' => 'pkEventTypeID']);
-//    }
 }

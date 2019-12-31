@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 
 use app\models\Event;
+use app\models\EventSearch;
 use app\models\EventType;
 use app\models\EventEventType;
 use app\models\EventAge;
@@ -67,12 +68,11 @@ class EventController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Event::find()
-                           ->orderBy('EventDate DESC, requestDateTime DESC')
-        ]);
+        $searchModel = new EventSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
