@@ -35,6 +35,8 @@ use Yii;
  * @property bool $isBike
  * @property bool $isPed
  * @property int $fkInstructor 
+ * @property int $participation_actual
+ * @property int $presentations_actual
  *
  * @property Person $fkInstructor0 
  * @property EventAge $fkEventAge
@@ -69,7 +71,7 @@ class Event extends \yii\db\ActiveRecord
 
             // Basic type validations
             
-            [['fkOrgID', 'fkPersonID', 'fkEventAgeID', 'fkPastInstructor'], 'integer'],
+            [['fkOrgID', 'fkPersonID', 'fkEventAgeID', 'fkPastInstructor', 'participation_actual', 'presentations_actual'], 'integer'],
             [['isAtOrgAddress', 'hasHosted', 'isBike', 'isPed'],            'boolean'],
             
             [['address1', 'address2', 'city'],                              'string', 'max' => 40],
@@ -108,7 +110,6 @@ class Event extends \yii\db\ActiveRecord
         return [
             'pkEventID' => 'Event ID',
             'requestDateTime' => 'Request Date Time',
-            //'name' => 'Name',
             'fkOrgID' => 'Organization',
             'address1' => 'Address Line 1',
             'address2' => 'Address Line 2',
@@ -135,6 +136,8 @@ class Event extends \yii\db\ActiveRecord
             'endTime' => 'End Time',
             'isBike' => 'Is Bike',
             'isPed' => 'Is Ped',
+            'presentations_actual' => 'Presentations',
+            'participation_actual' => 'Participants',
         ];
     }	
 	
@@ -208,6 +211,21 @@ class Event extends \yii\db\ActiveRecord
         return $this->hasMany(Invoice::className(), ['fkEventID' => 'pkEventID']);
     }
 
+    /**
+     * @return string
+     */
+    public function getInvoiceString()
+    {
+        $returnStrings = array();
+        foreach($this->invoices as $invoice)
+        {
+            $urlInv = Yii::$app->urlManager->createURL(['invoice/view', 'id' => $invoice->pkInvoiceID]);
+            $personName = $invoice->instructor->firstName . ' ' . $invoice->instructor->lastName;
+            $urlInst = Yii::$app->urlManager->createURL(['person/view', 'id' => $invoice->instructor->pkPersonID]);
+            $returnStrings[] = "#<a href='$urlInv'>{$invoice->pkInvoiceID}</a> (<a href='$urlInst'>{$personName}</a>)";
+        }
+        return implode(', ', $returnStrings);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

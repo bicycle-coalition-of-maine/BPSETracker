@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'eventType')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'isPublic')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

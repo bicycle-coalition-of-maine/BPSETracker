@@ -15,6 +15,7 @@ use app\models\Contact;
 use app\models\Rate;
 use app\models\Mileage;
 use app\models\Config;
+use app\models\Event;
 
 /**
  * InvoiceController implements the CRUD actions for Invoice model.
@@ -103,11 +104,8 @@ class InvoiceController extends Controller
             $model->invoiceDate = 
                     Yii::$app->globals->formatDateForSQL(substr($invDate, 0, $idxSpace), null)
                     . substr($invDate, $idxSpace);
-//            $model->invoiceDate = Yii::$app->globals->formatDateForSQL(
-//                    (Yii::$app->request->post('Invoice'))['invoiceDate'], ''
-//                    
-//                    );
             if($model->save()) {
+                $this->updateEventActuals();
                 return $this->redirect(['view', 'id' => $model->pkInvoiceID]);
             }
         }
@@ -152,7 +150,8 @@ class InvoiceController extends Controller
                 }
             }
             if($model->save()) {
-                if($model->approveDate) $this->sendInvoiceApproval($id);
+                $this->updateEventActuals($model);
+                if($model->approveDate) $this->sendInvoiceApproval($id);                
                 return $this->redirect(['view', 'id' => $model->pkInvoiceID]);
             }
         }
@@ -235,6 +234,20 @@ class InvoiceController extends Controller
             
     }
     
+    // Update the actuals on the corresponding event, if necessary
+    private function updateEventActuals($model)
+    {
+        $presentations = $model->presentations; if(!$presentations) $presentations = 0;
+        $presentees = $model->presentees; if(!$presentees) $presentees = 0;
+        if($presentations || $presentees) {
+            $event = Event::findOne($model->fkEventID);
+            $eventPresentations = $event->presentations_actual; if(!$eventPresentations) $eventPresentations = 0;
+            $eventPresentees = $event->participation_actual; if(!$eventPresentees) $eventPresentees = 0;
+            if($presentations > $eventPresentations) $event->presentations_actual = $presentations;
+            if($presentees > $eventPresentees) $event->participation_actual = $presentees;
+            $event->save();
+        }        
+    }
     private function sendInvoiceApproval($id)
     {
         $invoice = $this->findModel($id);

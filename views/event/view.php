@@ -129,15 +129,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Instructor(s)',
                 'format' => 'raw',
                 'value' => function($data) {
-                    $returnList = array();
-                    foreach($data->staffPeople as $staffPerson) {
-                        $url = Yii::$app->urlManager->createURL(['person/view', 'id' => $staffPerson->pkPersonID ]);
-                        $returnList[] = "<a href='$url'>{$staffPerson->firstName} {$staffPerson->lastName}</a>";
-                    }                        
-                    return implode(', ', $returnList);
+                    return $data->staffingString;
                 }
             ],
             'notes:ntext',
+        ]
+    ]) ?>
+
+    <h2>Results</h2>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'presentations_actual',
+            'participation_actual',
+            [
+                'label' => 'Invoice(s)',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return $data->invoiceString;
+                }
+            ]
         ]
     ]) ?>
     

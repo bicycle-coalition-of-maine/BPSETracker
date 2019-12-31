@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'sequence',
             'eventType',
             'description',
+            [ 'attribute' => 'isPublic', 'format' => 'boolean' ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',

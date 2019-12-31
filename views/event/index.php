@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             [
                 'attribute' => 'pkEventID',
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],                                        
             [
-                'label' => 'Organization',
+                'attribute' => 'orgName',
                 'value' => function($data) { 
                     return "<a href='index.php?r=org/view&id={$data->fkOrgID}'>{$data->organization->name}</a>"; 
                 },
@@ -52,8 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'city',
             [
-                'attribute' => 'fkPersonID',
-                'label' => 'Contact',
+                'attribute' => 'contactName',
                 'value' => function($data) {
                     $url = Yii::$app->urlManager->createURL(['person/view', 'id' => $data->contact->pkPersonID ]);
                     return "<a href='$url'>{$data->contact->firstName} {$data->contact->lastName}</a>";
@@ -61,12 +61,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw'
             ],
             [
-                'label' => 'Instructor(s)',
+                'attribute' => 'instructorName',
                 'value' => function($data) {
                     return $data->staffingString;
                 },
                 'format' => 'raw'
             ],
+            'presentations_actual',
+            'participation_actual',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
