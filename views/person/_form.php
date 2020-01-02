@@ -65,11 +65,13 @@ use app\models\CityCounty;
     <hr>
     
     <?= $form->field($model, 'isAdmin')->checkbox() ?>
+    <?php if(!$model->isAdmin) { ?>
     <div class='row'>
         <div class='col-sm-2'>
             <?= $form->field($model, 'password')->textInput() ?>
         </div>
     </div>
+    <?php } ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

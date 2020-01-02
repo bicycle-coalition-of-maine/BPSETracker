@@ -116,7 +116,11 @@ class PersonController extends Controller
             if (strlen($model->zipcode) > 0 && strlen($model->zipcode) < 5 )
                 $model->zipcode = str_pad($model->zipcode, 5, '0', STR_PAD_LEFT);
             
-            // if password, encrypt it
+            // If not an admin, make sure password is blank
+            if(!$model->isAdmin)
+                $model->password = null;
+            
+            // if password present, encrypt it
             if($model->password)
                 $model->password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
             
