@@ -105,6 +105,7 @@ class PersonController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $alreadyAdmin = $model->isAdmin;
 
         if ($model->load(Yii::$app->request->post())) {
             
@@ -116,13 +117,13 @@ class PersonController extends Controller
             if (strlen($model->zipcode) > 0 && strlen($model->zipcode) < 5 )
                 $model->zipcode = str_pad($model->zipcode, 5, '0', STR_PAD_LEFT);
             
-            // If not an admin, make sure password is blank
-            if(!$model->isAdmin)
+            // Custom handling around admin flag and passwords
+            if($model->isAdmin) {
+                if(!$alreadyAdmin) // Only reset password if becoming new admin
+                    $model->password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+            }
+            else // If not an admin, make sure password is blank
                 $model->password = null;
-            
-            // if password present, encrypt it
-            if($model->password)
-                $model->password = Yii::$app->getSecurity()->generatePasswordHash($model->password);
             
             if($model->save()) {
                 return $this->redirect(['view', 'id' => $model->pkPersonID]);
