@@ -82,6 +82,7 @@ AppAsset::register($this);
                     ['label' => 'Master Data', 'items' => [
                         ['label' => 'Rates', 'url' => ['/rate/index']],
                         ['label' => 'Mileage', 'url' => ['/mileage/index']],
+                        ['label' => 'City/County List', 'url' => ['/city-county']],
                         ['label' => 'Configuration', 'url' => ['/config/index']]
                     ]],
                 ]],
