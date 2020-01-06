@@ -126,7 +126,8 @@ class Person extends ActiveRecord //implements \yii\web\IdentityInterface
      */
     public function getInstructorInfos()
     {
-        return $this->hasMany(InstructorInfo::className(), ['fkPersonID' => 'pkPersonID']);
+        return $this->hasMany(InstructorInfo::className(), ['fkPersonID' => 'pkPersonID'])
+                ->orderBy('`year` DESC');
     }
 
     /**
@@ -154,23 +155,6 @@ class Person extends ActiveRecord //implements \yii\web\IdentityInterface
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-//    public static function getInstructorsCounties( $county = '' )
-//    {
-//        $q = new ActiveQuery()
-//        return $this->leftJoin( 'city_county CC', 'CC.city = person.city' )
-//                    ->where( "isStaff = b'1'" )
-//                    ->select( [ 'CC.county',
-//                                'person.city',
-//                                'lastName',
-//                                'firstName',
-//                                "IF( C.county = '', 0, IF( IFNULL( C.county, '' ) = '', 2, 1 )) AS isSameCounty",
-//                              ]
-//                            )
-//                    ->orderBy( '5, 1, 2, 3, 4' );
-//    }
-    /**
      * @return string
      */
      public function formattedPhone( $fmt )
@@ -185,70 +169,5 @@ class Person extends ActiveRecord //implements \yii\web\IdentityInterface
                                    . substr( $this->phone, 6, 4 )
                           );
      }
-	 
-     
-     // ===============================================================
-     // IdentityInterface methods
-     // ===============================================================
-     
-    /**
-     * Finds an identity by the given ID.
-     *
-     * @param string|int $id the ID to be looked for
-     * @return IdentityInterface|null the identity object that matches the given ID.
-     */
-//    public static function findIdentity($id)
-//    {
-//        return Person::find()->where("pkPersonID = $id AND isAdmin = b'1'")->one();
-//    }
-//    
-//    /**
-//     * Finds an identity by the given token.
-//     *
-//     * @param string $token the token to be looked for
-//     * @return IdentityInterface|null the identity object that matches the given token.
-//     */
-//    public static function findIdentityByAccessToken($token, $type = null)
-//    {
-//        // Not needed in this implementation.
-//    }
-//    
-//    /**
-//     * @return int|string current user ID
-//     */
-//    public function getId()
-//    {
-//        return $this->id;
-//    }
-//    
-//    /**
-//     * @return string current user auth key
-//     */
-//    public function getAuthKey()
-//    {
-//        // Not needed in this implementation.
-//    }
-//
-//    /**
-//     * @param string $authKey
-//     * @return bool if auth key is valid for current user
-//     */
-//    public function validateAuthKey($authKey)
-//    {
-//        // Not needed in this implementation.
-//    }
-//    
-//    /**
-//     * Validates password
-//     *
-//     * @param string $password password to validate
-//     * @return bool if password provided is valid for current user
-//     * 
-//     * This is not part of the IdentityInterface interface, but related
-//     * 
-//     */
-//    public function validatePassword($password)
-//    {
-//        return $this->password === $password;
-//    }
+
 }

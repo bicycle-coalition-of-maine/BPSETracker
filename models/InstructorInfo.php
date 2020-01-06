@@ -28,7 +28,7 @@ use Yii;
  * @property InstructorInfoActivity[] $instructorInfoActivities
  * @property InstructorActivity[] $fkInstructorActivities
  * @property InstructorInfoAges[] $instructorInfoAges
- * @property InstructorAges[] $fkInstructorAgeGroups
+ * @property InstructorAge[] $fkInstructorAgeGroups
  * @property InstructorInfoAvailable[] $instructorInfoAvailables
  * @property InstructorAvailability[] $fkInstructorAvailables
  * @property InstructorInfoRidetypes[] $instructorInfoRidetypes
@@ -69,17 +69,17 @@ class InstructorInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pkInstructorInfo' => 'Pk Instructor Info',
-            'fkPersonID' => 'Fk Person I D',
+            'pkInstructorInfo' => 'Instructor Info ID',
+            'fkPersonID' => 'Person ID',
             'year' => 'Year',
-            'fkInstStatus' => 'Fk Inst Status',
-            'availability_other' => 'Availability Other',
-            'fkInstLCI' => 'Fk Inst L C I',
-            'fkInstMechanical' => 'Fk Inst Mechanical',
-            'fkInstMedical' => 'Fk Inst Medical',
-            'ridetype_other' => 'Ridetype Other',
-            'isLargeGroupOK' => 'Is Large Group O K',
-            'isDirectContactOK' => 'Is Direct Contact O K',
+            'fkInstStatus' => 'General Status',
+            'availability_other' => 'Other',
+            'fkInstLCI' => 'LCI Status',
+            'fkInstMechanical' => 'Mechanical Ability',
+            'fkInstMedical' => 'Medical Ability',
+            'ridetype_other' => 'Other',
+            'isLargeGroupOK' => 'Are Large Groups OK?',
+            'isDirectContactOK' => 'Is Direct Contact OK?',
             'comments' => 'Comments',
         ];
     }
@@ -87,7 +87,7 @@ class InstructorInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstLCI0()
+    public function getLci()
     {
         return $this->hasOne(InstructorLci::className(), ['pkInstructorLCI' => 'fkInstLCI']);
     }
@@ -95,7 +95,7 @@ class InstructorInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkPerson()
+    public function getPerson()
     {
         return $this->hasOne(Person::className(), ['pkPersonID' => 'fkPersonID']);
     }
@@ -103,7 +103,7 @@ class InstructorInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstStatus0()
+    public function getStatus()
     {
         return $this->hasOne(InstructorStatus::className(), ['pkInstructorStatus' => 'fkInstStatus']);
     }
@@ -111,7 +111,7 @@ class InstructorInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstMechanical0()
+    public function getMechanical()
     {
         return $this->hasOne(InstructorMechanical::className(), ['pkInstructorMechanical' => 'fkInstMechanical']);
     }
@@ -119,7 +119,7 @@ class InstructorInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstMedical0()
+    public function getMedical()
     {
         return $this->hasOne(InstructorMedical::className(), ['pkInstructorMedical' => 'fkInstMedical']);
     }
@@ -127,64 +127,113 @@ class InstructorInfo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInstructorInfoActivities()
-    {
-        return $this->hasMany(InstructorInfoActivity::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
-    }
+//    public function getInstructorInfoActivities()
+//    {
+//        return $this->hasMany(InstructorInfoActivity::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
+//    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstructorActivities()
+    public function getActivities()
     {
         return $this->hasMany(InstructorActivity::className(), ['pkInstructorActivity' => 'fkInstructorActivity'])->viaTable('instructor_info_activity', ['fkInstructorInfo' => 'pkInstructorInfo']);
     }
+    
+    /**
+     * @return string
+     */
+    public function getActivitiesString()
+    {
+        return implode( '; ', array_map(
+                                function($row) { return $row->instructorActivity; },
+                                $this->activities
+                              )
+                      );
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+//    public function getInstructorInfoAges()
+//    {
+//        return $this->hasMany(InstructorInfoAges::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
+//    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInstructorInfoAges()
+    public function getAgeGroups()
     {
-        return $this->hasMany(InstructorInfoAges::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
+        return $this->hasMany(InstructorAge::className(), ['pkInstructorAgeGroup' => 'fkInstructorAgeGroup'])->viaTable('instructor_info_ages', ['fkInstructorInfo' => 'pkInstructorInfo']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgeStrings()
+    {
+        return implode( '; ', array_map(
+                                function($row) { return $row->instructorAgeGroup; },
+                                $this->ageGroups
+                              )
+                      );
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstructorAgeGroups()
-    {
-        return $this->hasMany(InstructorAges::className(), ['pkInstructorAgeGroup' => 'fkInstructorAgeGroup'])->viaTable('instructor_info_ages', ['fkInstructorInfo' => 'pkInstructorInfo']);
-    }
+//    public function getInstructorInfoAvailables()
+//    {
+//        return $this->hasMany(InstructorInfoAvailable::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
+//    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInstructorInfoAvailables()
-    {
-        return $this->hasMany(InstructorInfoAvailable::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFkInstructorAvailables()
+    public function getAvailability()
     {
         return $this->hasMany(InstructorAvailability::className(), ['pkInstructorAvailability' => 'fkInstructorAvailable'])->viaTable('instructor_info_available', ['fkInstructorInfo' => 'pkInstructorInfo']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
-    public function getInstructorInfoRidetypes()
+    public function getAvailabilityString()
     {
-        return $this->hasMany(InstructorInfoRidetypes::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
+        return implode( '; ', array_map(
+                                function($row) { return $row->instructorAvailability; },
+                                $this->availability
+                              )
+                      );
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFkInstructorRideTypes()
+//    public function getInstructorInfoRidetypes()
+//    {
+//        return $this->hasMany(InstructorInfoRidetypes::className(), ['fkInstructorInfo' => 'pkInstructorInfo']);
+//    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRideTypes()
     {
         return $this->hasMany(InstructorRidetype::className(), ['pkInstructorRideType' => 'fkInstructorRideType'])->viaTable('instructor_info_ridetypes', ['fkInstructorInfo' => 'pkInstructorInfo']);
     }
+    
+    /**
+     * @return string
+     */
+    public function getRideTypeString()
+    {
+        return implode( '; ', array_map(
+                                function($row) { return $row->instructorRideType; },
+                                $this->rideTypes
+                              )
+                      );
+    }
+
 }

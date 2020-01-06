@@ -194,13 +194,11 @@ class Event extends \yii\db\ActiveRecord
      */
     public function getEventTypeString()
     {
-        // Probably a more concise way to do this, but I don't know it at the moment
-        $returnStrings = array();
-        foreach($this->eventTypes as $eventType)
-        {
-            $returnStrings[] = $eventType->eventType;
-        }
-        return implode(' + ', $returnStrings);
+        return implode( ' + ', array_map(
+                                function($row) { return $row->eventType; },
+                                $this->eventTypes
+                              )
+                      );        
     }
     
     /**

@@ -60,6 +60,7 @@ class PersonController extends Controller
 
         return $this->render('view', [
             'model' => $model,
+            'info' => new ArrayDataProvider(['allModels' => $model->instructorInfos]),
             'orgs' => new ArrayDataProvider([ 'allModels' => $model->organizations ]),
             'events' => new ArrayDataProvider([ 'allModels' => $model->events ]),
         ]);

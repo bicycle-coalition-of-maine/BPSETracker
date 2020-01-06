@@ -24,12 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'pkPersonID',
             'isActive:boolean',
-//            [
-//                'attribute' => 'isActive',
-//                'value' => function($data) {
-//                    return $data->isActive ? 'Yes' : 'No';
-//                }
-//            ],
             'firstName',
             'lastName',
             'email:email',
@@ -50,6 +44,80 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?php if($info->totalCount) { ?>
+    
+        <h2>Instructor Details</h2>
+
+        <p><a class="btn btn-success" href="/index.php?r=inst-info%2Fcreate&id=<?= $model->pkPersonID ?>">New  Instructor Details</a>    </p>
+        <?=
+            GridView::widget([
+                'dataProvider' => $info,
+                'columns' => [
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'controller' => 'inst-info',
+                        'template' => '{update}',
+                        'urlCreator' => function($action, $model, $key, $index) {
+                            return Yii::$app->urlManager->createURL(['inst-info/update', 'id' => $model->pkInstructorInfo]);
+                            //return Url::to(['update', 'id' => $model->pkIntructorInfo]);
+                        },
+//                        'buttons' => ['update' => function($url, $model, $key) {
+//                                                    return 
+//                                                  }
+//                                     ]
+                    ],
+                    'year',
+                    [
+                        'attribute' => 'fkInstStatus',
+                        'value' => function($data) { return $data->status->instructorStatus; }
+                    ],
+                    [
+                        'label' => 'Activities',
+                        'value' => function($data) { return $data->activitiesString; }
+                    ],
+                    [
+                        'label' => 'Ages',
+                        'value' => function($data) { return $data->ageStrings; }
+                    ],
+                    [
+                        'attribute' => 'isLargeGroupOK',
+                        'format' => 'boolean',
+                        'label' => 'Large Group?',
+                    ],
+                    [
+                        'label' => 'Ride Types',
+                        'value' => function($data) { return $data->rideTypeString; }
+                    ],
+                    'ridetype_other',
+                    [
+                        'label' => 'Availability',
+                        'value' => function($data) { return $data->availabilityString; }
+                    ],
+                    'availability_other',
+                    [
+                        'attribute' => 'fkInstLCI',
+                        'value' => function($data) { return $data->lci->instructorLCI; }
+                    ],
+                    [
+                        'attribute' => 'fkInstMechanical',
+                        'value' => function($data) { return $data->mechanical->instructorMechanical; }
+                    ],
+                    [
+                        'attribute' => 'fkInstMedical',
+                        'value' => function($data) { return $data->medical->instructorMedical; }
+                    ],
+                    [
+                        'attribute' => 'isDirectContactOK',
+                        'format' => 'boolean',
+                        'label' => 'Direct Contact?',
+                    ],
+                    'comments',
+                ]
+            ])
+        ?>
+    
+    <?php } // if any info records to show ?>
+        
     <h2>Organizations</h2>
 
     <?php 
