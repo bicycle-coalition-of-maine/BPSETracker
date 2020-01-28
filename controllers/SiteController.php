@@ -45,13 +45,26 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays site homepage.
      *
      * @return string
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $intro = str_replace( "\n", '<br/>', Config::findOne('RequestIntro')->strValue );
+        return $this->render('index', [
+            'intro' => $intro,
+        ]);
+    }
+
+    /**
+     * Displays admin homepage.
+     *
+     * @return string
+     */
+    public function actionAdmin()
+    {
+        return $this->render('admin');
     }
 
     /**
@@ -67,7 +80,8 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //return $this->goBack();
+            return $this->render('admin');
         }
 
         $model->password = '';

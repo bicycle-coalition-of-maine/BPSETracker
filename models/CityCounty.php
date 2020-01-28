@@ -59,4 +59,4 @@ class CityCounty extends \yii\db\ActiveRecord
                 ->column();
     }
 
-    }
+}

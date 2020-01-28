@@ -54,13 +54,16 @@ AppAsset::register($this);
     if( Yii::$app->user->isGuest )
         echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [['label' => 'Login', 'url' => ['/site/login']]]
+                'items' => [
+                    ['label' => 'Admin', 'url' => ['/site/login']],
+                    ['label' => 'Invoice', 'url' => ['/site/invoice']],
+                ]
             ]);
     else        
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'Admin Home', 'url' => ['/site/admin']],
                 ['label' => 'Edit', 'items' => [
                     ['label' => 'People', 'url' => ['/person/index'], 'items' => [
                         ['label' => 'Instructor Status', 'url' => ['/inst-status/index']],

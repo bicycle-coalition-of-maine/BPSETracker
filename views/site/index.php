@@ -2,31 +2,35 @@
 
 /* @var $this yii\web\View */
 
+use yii\helpers\Html;
+
 ?>
 
 <div class="site-index">
 
-    <a href='<?= Yii::$app->urlManager->createURL('person') ?>' class='btn btn-primary'>People</a>
-    <a href='<?= Yii::$app->urlManager->createURL('org') ?>' class='btn btn-primary'>Organizations</a>
-    <a href='<?= Yii::$app->urlManager->createURL('event') ?>' class='btn btn-primary'>Events</a>
-    <a href='<?= Yii::$app->urlManager->createURL('invoice') ?>' class='btn btn-primary'>Invoices</a>
+    <p style="text-align: center;">
+        <img src="/images/HeadsUpLogo.png" height="100">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="/images/BCMLogoText.png" height="100">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="/images/MeDOTLogo.png" height="100">
+        <h1 style="text-align: center; font-weight: bold; margin: 1em;">
+            BPSE / SRTS Request Form
+        </h1>
+    </p>
     
-    <div class="jumbotron" style='padding-top: 15px; padding-bottom: 0;'>
-        <img src="/images/Banner.png" class="img-rounded img-responsive">
-        
-        <h1 style="font-weight: bold;">Bicycle/Pedestrian Safety Education Event Tracker</h1>
-    </div>
-
-    <div class="body-content">
-
-        <h2>Welcome to the BPSE Event Tracker!</h2>
-        
-        <ul>
-            <li>To edit primary data, use the buttons above or the <b>Edit</b> menu.</li>
-            <li>To edit codes and master data, use the <b>Edit</b> menu.</li>
-            <li>To assign instructors, approve invoices, and run reports, use the <b>Actions</b> menu.</li>
-            <li>For technical support, contact <a href='mailto:johnbrooking4@gmail.com'>John Brooking</a>.</li>
-        </ul>
-
-    </div>
+<!--    <div class="jumbotron" style='padding-top: 15px; padding-bottom: 0;'>
+        <img src="/images/RequestBanner.jpg" class="img-rounded img-responsive">        
+        <h1 style="font-weight: bold;">Bicycle/Pedestrian Safety Education Request Form</h1>
+    </div>-->
+    
+    <p><?= $intro ?></p>
+    
+    <hr>
+    
+    <p style="text-align: center; font-weight: bold;">
+        Click here to start request<br>
+        <?= Html::a('REQUEST ASSISTANCE', ['request/index'], ['class' => 'btn btn-warning']) ?>
+    </p>
+    
 </div>

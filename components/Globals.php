@@ -61,14 +61,56 @@ class Globals extends Component
     }
     
     /*
+     * Format a 7 or 10-digit numeric string as a phone number.
+     * Formats:
+     *    (   (207)831-2735
+     *    -   207-831-2735
+     *    .   207.831.2735
+     */
+    
+    function formatPhone($phone, $fmtChar = '(')
+    {
+        $returnCode = $areaCode = $prefix = $digits = '';
+        
+        if(strlen($phone) == 10) {
+            $areaCode = substr($phone, 0, 3);
+            $prefix = substr($phone, 3, 3);
+            $digits = substr($phone, 6, 4);
+        }
+        else {
+            $prefix = substr($phone, 0, 3);
+            $digits = substr($phone, 3, 4);            
+        }
+        
+        switch($fmtChar) {
+            case '(':
+                $returnCode = ($areaCode ? "($areaCode) $prefix-$digits" : "$prefix-$digits");
+                break;
+            case '-':
+                $returnCode = ($areaCode ? "$areaCode-$prefix-$digits" : "$prefix-$digits");
+                break;
+            case '.':
+                $returnCode = ($areaCode ? "$areaCode.$prefix.$digits" : "$prefix.$digits");
+                break;
+            default:
+        }
+        
+        return $returnCode;
+    }
+    
+    /*
      * Takes parallel label and value arrays, keyed by sequential number, and outputs html table
      */
-    function formatAsHTMLTable(array $arrLabels, array $arrValues)
+    function formatAsHTMLTable(array $arrValues, array $arrLabels)
     {
         $return = '';
-        foreach(array_keys($arrLabels) as $key)
+        foreach(array_keys($arrValues) as $key)
             $return .= "<tr valign='top'><td><b>{$arrLabels[$key]}</b></td><td>{$arrValues[$key]}</td></tr>";
         return "<table>$return</table>";
     }
 
+    // Wrap HTML content in a Bootstrap "col-sm-x" column class
+    function wrapInColumn($cols, $content) {
+        return "<div class='col-sm-$cols'>$content</div>";
+    }
 }

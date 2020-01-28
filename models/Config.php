@@ -33,7 +33,7 @@ class Config extends \yii\db\ActiveRecord
             [['exposeToUI'], 'boolean'],
             [['pkOptionName'], 'string', 'max' => 30],
             [['label'], 'string', 'max' => 1024],
-            [['strValue'], 'string', 'max' => 1024],
+            [['strValue'], 'string', 'max' => 10000],
             [['pkOptionName'], 'unique'],
         ];
     }

@@ -60,6 +60,14 @@ class Person extends ActiveRecord //implements \yii\web\IdentityInterface
             [['zipcode'], 'string', 'max' => 10],
             [['county'], 'string', 'max' => 30],
             [['password'], 'string', 'max' => 255],
+            ['phone', 'filter', 'filter' => function($value) {
+                $value = preg_replace('/[^\d]/', '', $value);
+                if(substr($value, 0, 1) == '1')
+                    $value = substr($value, 1); // Strip any leading 1
+                if(strlen($value) == 7)
+                    $value = '207' . $value;    // default to Maine area code
+                return $value;
+            }],
         ];
     }
 

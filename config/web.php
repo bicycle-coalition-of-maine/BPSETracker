@@ -57,11 +57,17 @@ $config = [
     'as beforeRequest' => [
         'class' => 'yii\filters\AccessControl',
         'rules' => [
-            [
+            [   // Allow all users site index and login page
                 'allow' => true,
-                'actions' => ['login'],
+                'controllers' => ['site'],
+                'actions' => ['index', 'login'],
             ],
-            [
+            [   // Allow all users all pages in the request controller
+                'allow' => true,
+                'controllers' => ['request']
+            ],
+                // TO DO: Allow all users all pages in the instructor invoice form
+            [   // Allow all else only to authenticated users
                 'allow' => true,
                 'roles' => ['@'],
             ],
