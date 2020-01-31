@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\Models\CityCounty */
 
-$this->title = 'Update City County: ' . $model->city;
-$this->params['breadcrumbs'][] = ['label' => 'City Counties', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->city, 'url' => ['view', 'id' => $model->city]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Update City: ' . $model->city;
+$this->params['breadcrumbs'][] = ['label' => 'City Attributes', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => $model->city, 'url' => ['view', 'id' => $model->city]];
+$this->params['breadcrumbs'][] = "Update {$model->city}";
 ?>
 <div class="city-county-update">
 
@@ -17,5 +17,6 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+    <a href='<?= Yii::$app->urlManager->createURL(['city-county']) ?>'>Cancel</a>
 
 </div>

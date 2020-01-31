@@ -31,6 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'city',
             'county',
+            'pacts:boolean',
+            'bacts:boolean',
+            'focus21:boolean',
         ],
     ]) ?>
 

@@ -19,6 +19,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'county') ?>
 
+    <?= $form->field($model, 'pacts')->checkbox() ?>
+
+    <?= $form->field($model, 'bacts')->checkbox() ?>
+
+    <?= $form->field($model, 'focus21')->checkbox() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

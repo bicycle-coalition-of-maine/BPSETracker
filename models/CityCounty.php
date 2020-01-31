@@ -9,7 +9,10 @@ use Yii;
  *
  * @property string $city
  * @property string $county
- */
+ * @property bool $pacts 
+ * @property bool $bacts 
+ * @property bool $focus21 
+*/
 class CityCounty extends \yii\db\ActiveRecord
 {
     /**
@@ -27,6 +30,7 @@ class CityCounty extends \yii\db\ActiveRecord
     {
         return [
             [['city', 'county'], 'required'],
+            [['pacts', 'bacts', 'focus21'], 'boolean'], 
             [['city'], 'string', 'max' => 40],
             [['county'], 'string', 'max' => 20],
             [['city'], 'unique'],
@@ -41,7 +45,10 @@ class CityCounty extends \yii\db\ActiveRecord
         return [
             'city' => 'City',
             'county' => 'County',
-        ];
+            'pacts' => 'PACTS', 
+            'bacts' => 'BACTS', 
+            'focus21' => 'Focus 21', 
+	        ];
     }
     
     static public function getCounty($city)

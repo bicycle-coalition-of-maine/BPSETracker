@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\CityCounty;
+use app\Models\CityCounty;
 
 /**
  * CityCountySearch represents the model behind the search form of `app\Models\CityCounty`.
@@ -18,6 +18,7 @@ class CityCountySearch extends CityCounty
     {
         return [
             [['city', 'county'], 'safe'],
+            [['pacts', 'bacts', 'focus21'], 'boolean'],
         ];
     }
 
@@ -56,6 +57,12 @@ class CityCountySearch extends CityCounty
         }
 
         // grid filtering conditions
+        $query->andFilterWhere([
+            'pacts' => $this->pacts,
+            'bacts' => $this->bacts,
+            'focus21' => $this->focus21,
+        ]);
+
         $query->andFilterWhere(['like', 'city', $this->city])
             ->andFilterWhere(['like', 'county', $this->county]);
 

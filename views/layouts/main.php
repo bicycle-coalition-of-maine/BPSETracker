@@ -83,10 +83,10 @@ AppAsset::register($this);
                     ]],
                     ['label' => 'Invoices', 'url' => ['/invoice/index']],
                     ['label' => 'Master Data', 'items' => [
+                        ['label' => 'City Attributes', 'url' => ['/city-county']],
                         ['label' => 'Rates', 'url' => ['/rate/index']],
                         ['label' => 'Mileage', 'url' => ['/mileage/index']],
-                        ['label' => 'City/County List', 'url' => ['/city-county']],
-                        ['label' => 'Configuration', 'url' => ['/config/index']]
+                        ['label' => 'Configuration', 'url' => ['/config/index']],
                     ]],
                 ]],
                 ['label' => 'Actions', 'items' => [
