@@ -13,6 +13,7 @@ use app\models\Request;
 
 $this->title = $title;
 
+$this->registerJsFile('js/RequestEvent.js');
 $this->registerCss("p.notes { font-size: smaller; margin-bottom: 2em; margin-top: -1em; font-style: italic; }")
 ?>
 
@@ -20,10 +21,11 @@ $this->registerCss("p.notes { font-size: smaller; margin-bottom: 2em; margin-top
 
     <h1><?= $this->title ?></h1>
 
-    <p><?php 
-        $fmtPhone = Yii::$app->globals->formatPhone($model->phone, '(');
-        echo "<b>Contact</b>: {$model->firstName} {$model->lastName}, {$model->email}, $fmtPhone"; 
-    ?></p>
+    <p>
+        <b>Contact</b>: <?= $model->firstName ?> <?= $model->lastName ?>,
+        <?= $model->MaskedEmail() ?>,
+        <?= $model->MaskedPhone() ?>
+    </p>
     <p><b>Organization</b>: <?= $model->orgName ?></p>
     
     <?php $form = ActiveForm::begin(); ?>
@@ -93,6 +95,8 @@ $this->registerCss("p.notes { font-size: smaller; margin-bottom: 2em; margin-top
     <?= $form->field($model, 'additionalInfo')->textarea(); ?>
     <p class='notes'><?= ($model->attributeNotes())['additionalInfo'] ?></p>
 
+    <?= $form->field($model, 'copyMe')->checkBox() ?>
+    
     <div class="form-group">
         <?= Html::submitButton('Submit', ['class' => 'btn btn-success']) ?>
         <a href='<?= Yii::$app->urlManager->createURL(['site/index']) ?>'>Cancel</a>

@@ -16,7 +16,6 @@ $this->title = $title;
 
 $yesSelect = ($matchLevel == 2 ? 'checked' : '');
 $noSelect = ($matchLevel == 1 ? 'checked' : '');
-
 ?>
 
 <div class='request-index'>
@@ -27,7 +26,10 @@ $noSelect = ($matchLevel == 1 ? 'checked' : '');
     
     <p>The personal information you entered partially matches this person:</p>
     
-    <p style='font-weight: bold;'><?= $person->firstName ?> <?= $person->lastName ?>, <?= $person->email ?>, <?= $person->formattedPhone('(') ?></p>
+    <p style='font-weight: bold;'><?= $person->firstName ?> <?= $person->lastName ?>,
+        <?= $model->MaskedEmail($person->email) ?>, 
+        <?= $model->MaskedPhone($person->phone) ?>
+    </p>
     
     <?php $form = ActiveForm::begin(); ?>
     
@@ -35,11 +37,10 @@ $noSelect = ($matchLevel == 1 ? 'checked' : '');
     
     <p>
         <input type='radio' name='ThisIsMe' value='yes' <?= $yesSelect ?>>
-        Yes, that's me. Please update my information in your database.<br>
+        Yes, that's me. Please update my information to what I have entered below.<br>
 
         <input type='radio' name='ThisIsMe' value='no' <?= $noSelect ?>>
-        No, that's not me. (But if you think we should already have you in
-        our database anyway, please indicate that in the comments later in this form.)
+        No, that's not me. (You will be entered as a new person in our database.)
     </p>
     
     <p>Please confirm your information again:</p>

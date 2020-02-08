@@ -22,10 +22,11 @@ $this->registerJsFile('js/RequestOrg.js');
 
     <h1><?= $this->title ?></h1>
     
-    <p><?php 
-        $fmtPhone = Yii::$app->globals->formatPhone($model->phone, '(');
-        echo "<b>Contact</b>: {$model->firstName} {$model->lastName}, {$model->email}, $fmtPhone"; 
-    ?></p>
+    <p>
+        <b>Contact</b>: <?= $model->firstName ?> <?= $model->lastName ?>,
+        <?= $model->MaskedEmail() ?>,
+        <?= $model->MaskedPhone() ?>
+    </p>
     
     <h2>Organization</h2>
     

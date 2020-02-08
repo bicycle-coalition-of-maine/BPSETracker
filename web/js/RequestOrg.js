@@ -1,4 +1,4 @@
-// JQuery for populating org address fields on request/org screen.
+// Javascript for populating org address fields on request/org screen.
 
 var OrgListBox = document.getElementById("request-fkorgid");
 OrgListBox.onchange = function() {
@@ -18,4 +18,5 @@ OrgListBox.onchange = function() {
     }
 };
 
-
+// Pre-select the "New organization" entry
+OrgListBox.selectedIndex = 0;

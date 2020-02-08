@@ -44,8 +44,9 @@ class Request extends Model {
     // Foreign keys
     public $fkOrgID, $fkContactID;
     
-    // Primary key of the created event
-    public $pkEventID;
+    // Other fields
+    public $pkEventID;      // Primary key of the created event
+    public $copyMe;         // Copy requester on notification email
 
     // Overriding default Model labels
     
@@ -77,6 +78,7 @@ class Request extends Model {
             'additionalInfo' => 'Additional Information',
             'fkOrgID' => 'Organization',
             'eventTypes' => 'Type of event', // Used by formatAsHTMLTable only
+            'copyMe' => 'Email me a copy of this request',
         ];
     }
     
@@ -91,7 +93,6 @@ class Request extends Model {
             'ageDesc' => 'E.g., kindergarten, grades 4-6, adults, all ages, adults, seniors',
             'proposedDates' => 'Please provide info on when you need program assistance. Be as specific as you can. Note that large groups (eg entire schools) may need multiple visits by program representatives. FINAL SCHEDULING IS DEPENDENT ON INSTRUCTOR AVAILABILITY, but we will make every effort to accommodate your preferred date/time.',
             'additionalInfo' => 'Any other info you want to include or questions you need to ask. To request additional info about our helmet program. If you\'re thinking of an assembly or other atypical event, please provide details here.',
-            //'hasHosted' => 'Have you hosted a BPSE instructor in the past?',
         ];
     }
     
@@ -101,7 +102,11 @@ class Request extends Model {
     {
         return [
             // Required fields
-            [['firstName', 'lastName', 'email', 'phone'], 'required'],
+            [[  'firstName', 'lastName', 'email', 'phone', 'title',
+                'orgName', 'orgAddress', 'orgCity', 'orgZip',
+                'eventAddress', 'eventCity', 'eventZip',
+                'need', 'estPresentations', 'estParticipants', 'proposedDates',
+              ], 'required'],
             
             // integers
             [['fkOrgID', 'fkContactID', 'fkEventAgeID'], 'integer'],
@@ -134,7 +139,7 @@ class Request extends Model {
             ['phoneExt', 'integer'],
             [['orgCounty', 'eventCounty'], 'match', 'pattern' => '/^[a-z]+$/i'],
             [['orgZip', 'eventZip'], 'match', 'pattern' => '/^[\d\-]{5,10}$/'],
-            ['isAtOrgAddress', 'boolean']
+            [['isAtOrgAddress', 'copyMe'], 'boolean']
         ];
     }
     
@@ -159,5 +164,19 @@ class Request extends Model {
         foreach ($this as $attr => $value) {
             $this->$attr = $session->get($attr);
         }        
+    }
+    
+    // functions to mask personal information
+    
+    public function MaskedEmail($plainEmail = null)
+    {
+        $email = ($plainEmail ? $plainEmail : $this->email);
+        return substr($email, 0, 4) . '*****' . substr($email, -7, 7);
+    }
+    
+    public function MaskedPhone($plainPhone = null)
+    {
+        $phone = ($plainPhone ? $plainPhone : $this->phone);
+        return '(***)***-' . substr($phone, -4, 4);
     }
 }

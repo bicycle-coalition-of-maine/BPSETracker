@@ -71,12 +71,13 @@ class RequestController extends Controller
             $person->lastName = $model->lastName;
             $person->email = $model->email;
             $person->phone = $model->phone;
+            $person->phoneExt = $model->phoneExt;
             $person->isContact = 1;
             $person->save();
             return [$person->pkPersonID, 0];
         }
         
-        // One or more, loop through them, return first with the most matches
+        // At least one field match, loop through them, return first with the most matches
         $savedPerson = new Person(); // just to initialize, will reset in loop
         $maxMatchCount = 0;
         foreach($matches as $person)
@@ -91,6 +92,17 @@ class RequestController extends Controller
                 $maxMatchCount = $thisMatchCount;
             }
         }
+        
+        // If all 3 fields matched, then update fields if necessary.
+        // Do it here because person panel is skipped in this case.
+        if($maxMatchCount == 3) 
+        {
+            $existing = Person::findOne($savedPerson->pkPersonID);
+            $existing->firstName = $model->firstName;
+            $existing->phoneExt = $model->phoneExt;
+            $existing->save();
+        }
+        
         return [$savedPerson->pkPersonID, $maxMatchCount];
     }
     
@@ -98,7 +110,9 @@ class RequestController extends Controller
     {
         $model = new Request();
         
-        if($model->load(Yii::$app->request->post()) && $model->validate() && $model->save())
+        if($model->load(Yii::$app->request->post()) 
+                && $model->validate(['firstName', 'lastName', 'email', 'phone']) 
+                && $model->save())
         {
             
             /* Here we branch either directly to the org screen if we're sure
@@ -148,7 +162,9 @@ class RequestController extends Controller
         $model = new Request();
         $model->loadFromSession();
 
-        if($model->load(Yii::$app->request->post()) && $model->validate() && $model->save())
+        if($model->load(Yii::$app->request->post()) 
+                && $model->validate(['firstName', 'lastName', 'email', 'phone']) 
+                && $model->save())
         {
             if(Yii::$app->request->post('ThisIsMe') == 'yes')   // Update existing
             {
@@ -157,6 +173,7 @@ class RequestController extends Controller
                 $person->lastName = $model->lastName;
                 $person->email = $model->email;
                 $person->phone = $model->phone;
+                $person->phoneExt = $model->phoneExt;
                 $person->save();
             }
             else // Create new
@@ -166,6 +183,7 @@ class RequestController extends Controller
                 $person->lastName = $model->lastName;
                 $person->email = $model->email;
                 $person->phone = $model->phone;
+                $person->phoneExt = $model->phoneExt;
                 $person->isContact = 1;
                 $person->save();
                 
@@ -190,7 +208,9 @@ class RequestController extends Controller
         $model = new Request();
         $model->loadFromSession();   
         
-        if($model->load(Yii::$app->request->post()) && $model->validate() && $model->save())
+        if($model->load(Yii::$app->request->post()) 
+                && $model->validate(['orgName', 'orgAddress', 'orgCity', 'orgZip']) 
+                && $model->save())
         {            
             if(!$model->fkOrgID) // New organization
             {
@@ -199,6 +219,7 @@ class RequestController extends Controller
                 $org->address1 = $model->orgAddress;
                 $org->city = $model->orgCity;
                 $org->zipcode = $model->orgZip;
+                $org->county = $model->orgCounty;
                 $org->save();
                 $model->fkOrgID = $org->pkOrgID;
             }
@@ -266,11 +287,13 @@ class RequestController extends Controller
     public function actionEvent()
     {
         $model = new Request();
-        $model->loadFromSession();   
+        $model->loadFromSession();
 
         // Handle post, if it is one
         
-        if($model->load(Yii::$app->request->post()) && $model->validate() && $model->save())
+        if($model->load(Yii::$app->request->post()) 
+                && $model->validate(['need', 'estPresentations', 'estParticipants', 'proposedDates']) 
+                && $model->save())
         {
             // Create basic event and save it to database
             $event = new Event();
@@ -317,17 +340,32 @@ class RequestController extends Controller
                 $joinRec->save();
             }
             
-            /* Send email notifications
-             * 
-             * - Config record ReqEmailRecips contains the list of people to
-             *   send to, in addition to copying the requestor at the email
-             *   address they just submitted.
-             * 
-             * - Config record ReqEmailSubject is the subject text, including
-             *   replaceable parameters.
-             */
+            // Send email notification
+
+            // If multiple recipients configured, put them into an array
+            $emailRecips = (Config::findOne('ReqEmailRecips'))->strValue;
+            if(strpos($emailRecips, ',') !== FALSE )
+                $emailRecips = explode(',', $emailRecips);
+            else if(strpos($emailRecips, ';') !== FALSE )
+                $emailRecips = explode(';', $emailRecips);
+                
+            $emailSubject = \str_replace('%1',
+                    "{$event->eventTypeString} at {$model->orgName}", 
+                    (Config::findOne('ReqEmailSubject'))->strValue);
             
-            // TO DO
+            $emailBody = $this->formatAsHTMLTable($model, $event);
+            $emailBody .= "<p>copyMe = '{$model->copyMe}'</p>";
+
+            $message = Yii::$app->mailer->compose()
+                ->setFrom('donotreply@bikemaine.org')
+                ->setTo($emailRecips)
+                ->setSubject($emailSubject)
+                ->setHtmlBody($emailBody);
+
+            if($model->copyMe)
+                $message->setCc($model->email);
+            
+            $message->send();
             
             // Redirect to the confirmation screen
             return $this->redirect(['confirm', 'id' => $event->pkEventID]);
@@ -347,6 +385,8 @@ class RequestController extends Controller
                 ->orderBy('sequence')
                 ->column();
         
+        $model->copyMe = true;
+        
         return $this->render('event', [
             'title' => $this->title,
             'model' => $model,
@@ -360,18 +400,18 @@ class RequestController extends Controller
         $model = new Request();
         $model->loadFromSession();
         $msg = Config::findOne('RequestThankYou');
+        $event = Event::findOne($model->pkEventID);
         
         return $this->render('confirm', [
             'title' => $this->title,
             'model' => $model,
-            'table' => $this->formatAsHTMLTable($model),
+            'table' => $this->formatAsHTMLTable($model, $event),
             'msg' => $msg->strValue,
         ]);
     }
     
-    public function formatAsHTMLTable($model)
+    public function formatAsHTMLTable($model, $event)
     {
-        $event = Event::findOne($model->pkEventID);
         return Yii::$app->globals->formatAsHTMLTable(
             [
             'firstName' => $model->firstName,
@@ -381,8 +421,9 @@ class RequestController extends Controller
             'phoneExt' => $model->phoneExt,
             'title' => $model->title,
             'orgName' => $model->orgName,
-            'isAtOrgAddress' => $model->isAtOrgAddress,
+            'isAtOrgAddress' => $model->isAtOrgAddress ? 'Yes' : 'No',
             'eventTypes' => $event->eventTypeString,
+            'otherType' => $model->otherType,
             'eventAddress' => $model->eventAddress,
             'eventCity' => $model->eventCity,
             'eventZip' => $model->eventZip,
