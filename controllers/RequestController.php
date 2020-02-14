@@ -55,6 +55,8 @@ class RequestController extends Controller
          * record with the highest number of matches, return that person ID.
          */
         
+        $model->newPerson = false;
+        
         $matches = Person::find()
                 ->where(['or', 
                         "lastName='{$model->lastName}'",
@@ -74,6 +76,10 @@ class RequestController extends Controller
             $person->phoneExt = $model->phoneExt;
             $person->isContact = 1;
             $person->save();
+            
+            $model->newPerson = true;
+            $model->save();
+            
             return [$person->pkPersonID, 0];
         }
         
@@ -175,6 +181,7 @@ class RequestController extends Controller
                 $person->phone = $model->phone;
                 $person->phoneExt = $model->phoneExt;
                 $person->save();
+                $model->newPerson = false;
             }
             else // Create new
             {  
@@ -186,11 +193,12 @@ class RequestController extends Controller
                 $person->phoneExt = $model->phoneExt;
                 $person->isContact = 1;
                 $person->save();
+                $model->newPerson = true;
                 
                 // Save the new person ID
                 $model->fkContactID = $person->pkPersonID;
-                $model->save();
             }
+            $model->save();
 
             return $this->redirect(['org']);
         }
@@ -206,7 +214,7 @@ class RequestController extends Controller
     public function actionOrg($all = '0')
     {
         $model = new Request();
-        $model->loadFromSession();   
+        $model->loadFromSession();  
         
         if($model->load(Yii::$app->request->post()) 
                 && $model->validate(['orgName', 'orgAddress', 'orgCity', 'orgZip']) 
@@ -219,9 +227,11 @@ class RequestController extends Controller
                 $org->address1 = $model->orgAddress;
                 $org->city = $model->orgCity;
                 $org->zipcode = $model->orgZip;
-                $org->county = $model->orgCounty;
+                $org->county = CityCounty::getCounty($model->orgCity);
                 $org->save();
+                
                 $model->fkOrgID = $org->pkOrgID;
+                $model->newOrg = true;
             }
             else // If existing, update if changes
             {
@@ -230,8 +240,10 @@ class RequestController extends Controller
                 $org->address1 = $model->orgAddress;
                 $org->city = $model->orgCity;
                 $org->zipcode = $model->orgZip;
+                $org->county = CityCounty::getCounty($model->orgCity);
                 if(count($org->dirtyAttributes))
                     $org->save();
+                $model->newOrg = false;
             }
 
             // Add or update this person as contact
@@ -262,13 +274,16 @@ class RequestController extends Controller
                 $model->eventZip = $model->orgZip;
                 // County goes the other way, because they specified the event county on the first panel
                 $model->orgCounty = $model->eventCounty;
-                $model->save(); // Save back to session vars again
             }
             
+            $model->save();     // Save any changes we may have made
             return $this->redirect(['event']);
         }
 
         $model->fkOrgID = '';
+        $model->newOrg = 1;
+        $model->isAtOrgAddress = 1;
+        
         $orgQuery = Organization::find()
                     ->select(["CONCAT(name, '; ', address1, '; ', city, '; ', zipcode)"])
                     ->indexBy('pkOrgID')
@@ -304,7 +319,7 @@ class RequestController extends Controller
             $event->city = $model->eventCity;
             $event->state = 'ME';
             $event->zipcode = $model->eventZip;
-            $event->county = $model->eventCounty;
+            $event->county = CityCounty::getCounty($model->eventCity);
             $event->fkPersonID = $model->fkContactID;
             if($model->otherType) $event->otherType = $model->otherType;
             $event->fkEventAgeID = $model->fkEventAgeID;
@@ -415,26 +430,26 @@ class RequestController extends Controller
         return Yii::$app->globals->formatAsHTMLTable(
             [
             'firstName' => $model->firstName,
-            'lastName' => $model->lastName,
+            'lastName' => $model->lastName . ($model->newPerson ? ' <b>* NEW *</b>' : ''),
             'email' => $model->email,
             'phone' => Yii::$app->globals->formatPhone($model->phone),
             'phoneExt' => $model->phoneExt,
             'title' => $model->title,
-            'orgName' => $model->orgName,
+            'orgName' => $model->orgName . ($model->newOrg ? ' <b>* NEW *</b>' : ''),
             'isAtOrgAddress' => $model->isAtOrgAddress ? 'Yes' : 'No',
             'eventTypes' => $event->eventTypeString,
-            'otherType' => $model->otherType,
-            'eventAddress' => $model->eventAddress,
-            'eventCity' => $model->eventCity,
-            'eventZip' => $model->eventZip,
-            'eventCounty' => $model->eventCounty,
-            'need' => $model->need,
-            'estPresentations' => $model->estPresentations,
-            'estParticipants' => $model->estParticipants,
+            'otherType' => $event->otherType,
+            'eventAddress' => $event->address1,
+            'eventCity' => $event->city,
+            'eventZip' => $event->zipcode,
+            'eventCounty' => $event->county,
+            'need' => $event->need,
+            'estPresentations' => $event->presentations,
+            'estParticipants' => $event->participation,
             'fkEventAgeID' => 'General Age Groups / Grades',
-            'ageDesc' => $model->ageDesc,
-            'proposedDates' => $model->proposedDates,
-            'additionalInfo' => $model->additionalInfo,
+            'ageDesc' => $event->ageDescription,
+            'proposedDates' => $event->datetimes,
+            'additionalInfo' => $event->comments,
             ],
             $model->attributeLabels()
         );        

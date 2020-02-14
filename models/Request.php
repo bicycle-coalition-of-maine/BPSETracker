@@ -39,14 +39,16 @@ class Request extends Model {
     
     // Event attributes
     public $need, $estPresentations, $estParticipants, $fkEventAgeID, $ageDesc,
-           $proposedDates, $additionalInfo; //, $hasHosted;
+           $proposedDates, $additionalInfo;
     
+    // Booleans
+    public $newPerson, $newOrg, $copyMe;
+
     // Foreign keys
     public $fkOrgID, $fkContactID;
     
     // Other fields
     public $pkEventID;      // Primary key of the created event
-    public $copyMe;         // Copy requester on notification email
 
     // Overriding default Model labels
     
@@ -69,6 +71,7 @@ class Request extends Model {
             'eventCity' => 'City',
             'eventZip' => 'Zip Code',
             'eventCounty' => 'County',
+            'otherType' => 'Other Type',
             'need' => 'Define the specific need for this request',
             'estPresentations' => 'Estimated Number of Presentations',
             'estParticipants' => 'Estimated Number of Participants (total)',
@@ -78,6 +81,7 @@ class Request extends Model {
             'additionalInfo' => 'Additional Information',
             'fkOrgID' => 'Organization',
             'eventTypes' => 'Type of event', // Used by formatAsHTMLTable only
+            'newOrg' => 'This is our first request',
             'copyMe' => 'Email me a copy of this request',
         ];
     }
@@ -103,8 +107,8 @@ class Request extends Model {
         return [
             // Required fields
             [[  'firstName', 'lastName', 'email', 'phone', 'title',
-                'orgName', 'orgAddress', 'orgCity', 'orgZip',
-                'eventAddress', 'eventCity', 'eventZip',
+                'orgName', 'orgAddress', 'orgCity', 'orgZip', 'orgCounty',
+                'eventAddress', 'eventCity', 'eventZip', 'eventCounty',
                 'need', 'estPresentations', 'estParticipants', 'proposedDates',
               ], 'required'],
             
@@ -125,7 +129,7 @@ class Request extends Model {
             ['additionalInfo', 'string', 'max' => 2500 ],
             
             // Content restrictions
-            [['firstName', 'lastName'], 'match', 'pattern' => '/^[a-z\s\-]+$/i' ],
+            [['firstName', 'lastName'], 'match', 'pattern' => '/^[a-z\s\-\.]+$/i' ],
             ['email', 'email'],
             ['phone', 'match', 'pattern' => '/^[\d\(\)\s\+\-\.]{7,17}+$/'],
             ['phone', 'filter', 'filter' => function($value) {
@@ -139,7 +143,7 @@ class Request extends Model {
             ['phoneExt', 'integer'],
             [['orgCounty', 'eventCounty'], 'match', 'pattern' => '/^[a-z]+$/i'],
             [['orgZip', 'eventZip'], 'match', 'pattern' => '/^[\d\-]{5,10}$/'],
-            [['isAtOrgAddress', 'copyMe'], 'boolean']
+            [['isAtOrgAddress', 'newPerson', 'newOrg', 'copyMe'], 'boolean']
         ];
     }
     
@@ -171,7 +175,11 @@ class Request extends Model {
     public function MaskedEmail($plainEmail = null)
     {
         $email = ($plainEmail ? $plainEmail : $this->email);
-        return substr($email, 0, 4) . '*****' . substr($email, -7, 7);
+        $returnVal = substr($email, 0, 3) . '****';
+        $posAt = strpos($email, '@');
+        if($posAt !== FALSE)
+            $returnVal .= substr($email, $posAt);        
+        return $returnVal;
     }
     
     public function MaskedPhone($plainPhone = null)

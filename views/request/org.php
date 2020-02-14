@@ -16,6 +16,8 @@ $this->title = $title;
 
 $this->registerJsFile('js/RequestOrg.js');
 
+$this->registerCss("p.step { font-size: larger; }")
+
 ?>
 
 <div class='request-index'>
@@ -32,24 +34,28 @@ $this->registerJsFile('js/RequestOrg.js');
     
     <?php $form = ActiveForm::begin(); ?>
         
-    <p>
-        <?= ( Yii::$app->request->get('all') == '1')
-            ? 'Please choose from the following list of organizations.'
-            : "Please choose from the following list of organizations in {$model->eventCounty} county."
-        ?>
-        If this is your first request, please choose "New organization".
+    <p class="step">
+        <b>Step 1.</b> If your organization has requested assistance from us before, please 
+        select it from the list below. If your organization is not listed,
+        choose "This is our first request" below the list.
+    </p>
+    
+    <p>You may search by clicking on the list and typing the name of your organization.
+        
+        <?php
+        if(!Yii::$app->request->get('all'))
+        {
+            ?>Click <a href='<?= Url::toRoute(['org', 'all' => '1']) ?>'>here</a> to expand the list to organizations beyond <?= $model->eventCounty ?> county.
+        <?php } ?>
     </p>
 
-    <?= $form->field($model, 'fkOrgID')->listBox($orgs, ['size' => '10', 'prompt' => '-- New organization --'])->label(false) ?>
+    <?= $form->field($model, 'fkOrgID')->listBox($orgs, ['size' => '10'])->label(false) ?>
     
-    <?php if( Yii::$app->request->get('all') != '1') { ?>
-    <p>
-        If your organization is not listed, but you think we already have it in our database,
-        please <a href='<?= Url::toRoute(['org', 'all' => '1']) ?>'>click here</a> to choose from the complete list of all organizations.
+    <?= $form->field($model, 'newOrg')->radioList(['1' => 'Yes', '0' => 'No']) ?>
+    
+    <p class="step"><b>Step 2.</b> Please enter or confirm your organization's details. These fields will 
+        auto-complete if you chose an existing organization from the list above.
     </p>
-    <?php } ?>
-    
-    <p>Please enter or confirm your organization's details:</p>
     
     <div class='row'>
         <?php
@@ -66,7 +72,7 @@ $this->registerJsFile('js/RequestOrg.js');
         ?>
     </div>
     
-    <?= $form->field($model, 'isAtOrgAddress')->checkbox() ?>
+    <?= $form->field($model, 'isAtOrgAddress')->radioList(['1' => 'Yes', '0' => 'No']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Next', ['class' => 'btn btn-success']) ?>
