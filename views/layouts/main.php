@@ -63,7 +63,7 @@ AppAsset::register($this);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Admin Home', 'url' => ['/site/admin']],
+                ['label' => 'Home', 'url' => ['/site/admin']],
                 ['label' => 'Edit', 'items' => [
                     ['label' => 'People', 'url' => ['/person/index'], 'items' => [
                         ['label' => 'Instructor Status', 'url' => ['/inst-status/index']],
@@ -92,7 +92,7 @@ AppAsset::register($this);
                 ['label' => 'Actions', 'items' => [
                     ['label' => 'Assign Instructors', 'url' => ['/event/requests']],
                     ['label' => 'Approve Invoices', 'url' => ['/invoice/index', 'show' => 'N']],
-                    ['label' => 'Report on Activity', 'url' => ['#']],
+                    ['label' => 'Report on Activity', 'url' => ['/report/index']],
                 ]],
                 ['label' => 'About', 'url' => ['/site/about']],
                 '<li>'
