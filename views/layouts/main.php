@@ -93,6 +93,7 @@ AppAsset::register($this);
                     ['label' => 'Assign Instructors', 'url' => ['/event/requests']],
                     ['label' => 'Approve Invoices', 'url' => ['/invoice/index', 'show' => 'N']],
                     ['label' => 'Report on Activity', 'url' => ['/report/index']],
+                    ['label' => 'Test Email', 'url' => ['/email-test/index']],
                 ]],
                 ['label' => 'About', 'url' => ['/site/about']],
                 '<li>'
