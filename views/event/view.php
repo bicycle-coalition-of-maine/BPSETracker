@@ -82,7 +82,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'participation',
             'datetimes',
             'presentations',
-            'hasHosted:boolean',
             [
                 'attribute' => 'fkPastInstructor',
                 'value' => function($data) {
@@ -125,6 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'isBike:boolean',
             'isPed:boolean',
+            'isSchool:boolean',
             [
                 'label' => 'Instructor(s)',
                 'format' => 'raw',

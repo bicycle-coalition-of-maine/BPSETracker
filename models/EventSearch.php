@@ -24,7 +24,6 @@ class EventSearch extends Event
         return [
             [['pkEventID'], 'integer'],
             [['requestDateTime', 'eventDate', 'orgName', 'city', 'contactName', 'instructorName'], 'safe'],
-            //[['isAtOrgAddress', 'hasHosted', 'isBike', 'isPed'], 'boolean'], // Maybe use later?
         ];
     }
 
@@ -159,7 +158,6 @@ class EventSearch extends Event
             'isAtOrgAddress' => $this->isAtOrgAddress,
             'fkPersonID' => $this->fkPersonID,
             'fkEventAgeID' => $this->fkEventAgeID,
-            'hasHosted' => $this->hasHosted,
             'fkPastInstructor' => $this->fkPastInstructor,
             'startTime' => $this->startTime,
             'endTime' => $this->endTime,

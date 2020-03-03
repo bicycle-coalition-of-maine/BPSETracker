@@ -357,27 +357,31 @@ class RequestController extends Controller
             
             // Send email notification
 
-            // If multiple recipients configured, put them into an array
-            $emailRecips = (Config::findOne('ReqEmailRecips'))->strValue;
-            if(strpos($emailRecips, ',') !== FALSE )
-                $emailRecips = explode(',', $emailRecips);
-            else if(strpos($emailRecips, ';') !== FALSE )
-                $emailRecips = explode(';', $emailRecips);
-                
-            $emailSubject = \str_replace('%1',
-                    "{$event->eventTypeString} at {$model->orgName}", 
-                    (Config::findOne('ReqEmailSubject'))->strValue);
+            // Fill in To/CC from config
+            $to = array();
+            $cc = array();
+            (Config::findOne('ReqEmailRecips'))->assignEmailRecips($to, $cc);
+
+            // CC requester if desired
+            if($model->copyMe)
+                $cc[$model->email] = "{$model->firstName} {$model->lastName}";
             
+            // Set subject from config
+            $subject = (Config::findOne('ReqEmailSubject'))
+                    ->substituteParams(
+                            "{$event->eventTypeString} at {$model->orgName}"
+                            );
+
             $emailBody = $this->formatAsHTMLTable($model, $event);
             $emailBody .= "<p>copyMe = '{$model->copyMe}'</p>";
 
             $message = Yii::$app->mailer->compose()
                 ->setFrom('donotreply@bikemaine.org')
-                ->setTo($emailRecips)
-                ->setSubject($emailSubject)
+                ->setTo($to)
+                ->setSubject($subject)
                 ->setHtmlBody($emailBody);
 
-            if($model->copyMe)
+            if(count($cc))
                 $message->setCc($model->email);
             
             $message->send();

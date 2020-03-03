@@ -53,8 +53,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'presentations') ?>
 
-    <?php // echo $form->field($model, 'hasHosted')->checkbox() ?>
-
     <?php // echo $form->field($model, 'fkPastInstructor') ?>
 
     <?php // echo $form->field($model, 'comments') ?>

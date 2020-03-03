@@ -11,6 +11,7 @@ use Yii;
  * @property string $requestDateTime
  * @property int $fkOrgID
  * @property bool $isAtOrgAddress
+ * @property bool $isSchool
  * @property string $address1
  * @property string $address2
  * @property string $city
@@ -25,7 +26,6 @@ use Yii;
  * @property string $participation
  * @property string $datetimes
  * @property string $presentations
- * @property bool $hasHosted
  * @property int $fkPastInstructor
  * @property string $comments
  * @property string $notes
@@ -72,7 +72,7 @@ class Event extends \yii\db\ActiveRecord
             // Basic type validations
             
             [['fkOrgID', 'fkPersonID', 'fkEventAgeID', 'fkPastInstructor', 'participation_actual', 'presentations_actual'], 'integer'],
-            [['isAtOrgAddress', 'hasHosted', 'isBike', 'isPed'],            'boolean'],
+            [['isAtOrgAddress', 'isBike', 'isPed', 'isSchool'],             'boolean'],
             
             [['address1', 'address2', 'city'],                              'string', 'max' => 40],
             [['state'],                                                     'string', 'max' => 2],
@@ -126,7 +126,6 @@ class Event extends \yii\db\ActiveRecord
             'participation' => 'Estimated Participation',
             'datetimes' => 'Dates/Times',
             'presentations' => 'Estimated Presentations',
-            'hasHosted' => 'Has this organization hosted a past event?',
             'fkPastInstructor' => 'Past Instructor',
             'fkInstructorId' => 'Instructor',
             'comments' => 'Requester Comments',
@@ -136,6 +135,7 @@ class Event extends \yii\db\ActiveRecord
             'endTime' => 'End Time',
             'isBike' => 'Is Bike',
             'isPed' => 'Is Ped',
+            'isSchool' => 'At a School?',
             'presentations_actual' => 'Presentations',
             'participation_actual' => 'Participants',
         ];

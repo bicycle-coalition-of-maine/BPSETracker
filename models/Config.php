@@ -53,7 +53,7 @@ class Config extends \yii\db\ActiveRecord
     }
     
     /*
-     * getEmailRecips - for the current email key, populate $to and $cc arrays.
+     * assignEmailRecips - for the current email key, populate $to and $cc arrays.
      * The arrays are in the form taken by Swift_Mailer, which can be a mix of
      * sequential or associative:
      *      $to[0] => 'address@domain.com'
@@ -88,5 +88,18 @@ class Config extends \yii\db\ActiveRecord
                     else $to[] = $addr;
             }
         }
+    }
+    
+    /*
+     * substituteParams - substitute up to 5 parameters into the string
+     * named by the current option key.
+     */
+    public function substituteParams($p1, $p2='', $p3='', $p4='', $p5='')
+    {
+        $return = str_replace('%1', $p1, $this->strValue);
+        $return = str_replace('%2', $p2, $return);
+        $return = str_replace('%3', $p3, $return);
+        $return = str_replace('%4', $p4, $return);
+        return str_replace('%5', $p5, $return);
     }
 }

@@ -41,6 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->globals->formatSQLDate($data->invoiceDate, 'n/d/y g:i A');
                 }
             ],
+            'isSchool:boolean',
+            'isBike:boolean',
+            'isPed:boolean',
             'presentations',
             'presentees',
             'hours',
@@ -52,7 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'miles',
-            'milesPurpose',
             'submitterComments:ntext',
             [
                 'attribute' => 'invoiceAmount',

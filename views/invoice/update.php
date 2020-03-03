@@ -52,7 +52,6 @@ $this->params['breadcrumbs'][] = 'Update';
                 }
             ],
             'miles',
-            'milesPurpose',
             'submitterComments:ntext',
         ]
     ]) ?>

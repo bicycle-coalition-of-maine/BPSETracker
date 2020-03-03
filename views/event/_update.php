@@ -62,7 +62,3 @@ use app\models\CityCounty;
 <?= $form->field($model, 'fkPersonID')->dropDownList($eventContact) ?>
 
 <?= $form->field($model, 'fkEventAgeID')->dropDownList($eventAgeGroups) ?>
-
-<?= $form->field($model, 'hasHosted')->checkbox() ?>
-
-<?= $form->field($model, 'fkPastInstructor')->dropDownList($pastInstructor, ['prompt' => '-- Select Past Instructor --']) ?>

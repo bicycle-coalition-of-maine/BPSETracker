@@ -165,15 +165,6 @@ $this->registerJs( "$('button').click( function() { if( this.type == 'submit' ) 
             [
                 'label' => 'Proposed Dates/Times', 'value' => $model->datetimes,
             ],
-            [
-                'label' => 'Hosted before?',
-                'value' => function($data) {
-                    $result = ( $data->hasHosted ? 'Yes' : 'No' );
-                    if( $data->pastInstructor )
-                        $result .= " ({$data->pastInstructor->firstName} {$data->pastInstructor->lastName})";
-                    return $result;
-                },
-            ],
             'comments',
         ],
     ]);

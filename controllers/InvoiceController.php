@@ -209,7 +209,7 @@ class InvoiceController extends Controller
                 $model->approveDate = date('Y-m-d H:i:s');
                 $model->hourlyrate = $model->rateRequested->rate;
 
-                if($model->save()) {
+                if($model->save() && $this->updateEventActuals($model)) {
                     if($model->approveDate) $this->sendInvoiceApproval($id);
                     return $this->redirect(['view', 'id' => $model->pkInvoiceID]);
                 }
@@ -234,20 +234,25 @@ class InvoiceController extends Controller
             
     }
     
-    // Update the actuals on the corresponding event, if necessary
+    /* Update flags and actuals counts on the corresponding event.
+     * 
+     * Note that this is currently only implemented with the single invoice
+     * case in mind. For multiple invoices, actual counts should be added to
+     * for additional approvals, and subtracted from for un-approvals. But
+     * this is not implemented yet.
+     */
+    
     private function updateEventActuals($model)
     {
-        $presentations = $model->presentations; if(!$presentations) $presentations = 0;
-        $presentees = $model->presentees; if(!$presentees) $presentees = 0;
-        if($presentations || $presentees) {
-            $event = Event::findOne($model->fkEventID);
-            $eventPresentations = $event->presentations_actual; if(!$eventPresentations) $eventPresentations = 0;
-            $eventPresentees = $event->participation_actual; if(!$eventPresentees) $eventPresentees = 0;
-            if($presentations > $eventPresentations) $event->presentations_actual = $presentations;
-            if($presentees > $eventPresentees) $event->participation_actual = $presentees;
-            $event->save();
-        }        
+        $event = Event::findOne($model->fkEventID);
+        $event->presentations_actual = $model->presentations;
+        $event->participation_actual = $model->presentees;
+        $event->isBike = $model->isBike;
+        $event->isPed = $model->isPed;
+        $event->isSchool = $model->isSchool;
+        return $event->save();
     }
+    
     private function sendInvoiceApproval($id)
     {
         $invoice = $this->findModel($id);

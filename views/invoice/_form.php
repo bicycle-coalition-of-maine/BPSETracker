@@ -15,6 +15,12 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'fkEventID')->dropDownList($eventDDL) ?>
 
+    <div class='row'>
+        <div class='col-sm-3'><?= $form->field($model, 'isSchool')->checkbox() ?></div>
+        <div class='col-sm-3'><?= $form->field($model, 'isBike')->checkbox() ?></div>
+        <div class='col-sm-3'><?= $form->field($model, 'isPed')->checkbox() ?></div>
+    </div>
+
     <?= $form->field($model, 'fkPersonID')->dropDownList($instructorDDL) ?>
 
     <div class="row">
@@ -44,9 +50,6 @@ use yii\jui\DatePicker;
     <div class='row'>
         <div class="col-sm-1">
             <?= $form->field($model, 'miles')->textInput() ?>
-        </div>
-        <div class="col-sm-9">
-            <?= $form->field($model, 'milesPurpose')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-sm-2">
             <?= $form->field($model, 'invoiceAmount')->textInput(['maxlength' => true]) ?>

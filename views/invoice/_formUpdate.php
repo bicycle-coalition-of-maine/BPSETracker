@@ -19,15 +19,21 @@ if($model->approveDate) {
 }
 ?>
 
-    <div class='row'>
-        <div class='col-sm-1'><?= $form->field($model, 'hours')->textInput() ?></div>
-        <div class='col-sm-2'><?= $form->field($model, 'presentations')->textInput() ?></div>
-        <div class='col-sm-2'><?= $form->field($model, 'presentees')->textInput() ?></div>
-        <div class='col-sm-2'><?= $form->field($model, 'hourlyrate')->textInput(['maxlength' => true]) ?></div>
-        <div class='col-sm-2'><?= $form->field($model, 'invoiceAmount')->textInput(['maxlength' => true]) ?></div>
-    </div>
+<div class='row'>
+    <div class='col-sm-1'><?= $form->field($model, 'hours')->textInput() ?></div>
+    <div class='col-sm-2'><?= $form->field($model, 'presentations')->textInput() ?></div>
+    <div class='col-sm-2'><?= $form->field($model, 'presentees')->textInput() ?></div>
+    <div class='col-sm-2'><?= $form->field($model, 'hourlyrate')->textInput(['maxlength' => true]) ?></div>
+    <div class='col-sm-2'><?= $form->field($model, 'invoiceAmount')->textInput(['maxlength' => true]) ?></div>
+</div>
 
-<?= $form->field($model, 'approverComments')->textarea(['rows' => 3]) ?>
+<div class='row'>
+    <div class='col-sm-3'><?= $form->field($model, 'isSchool')->checkbox() ?></div>
+    <div class='col-sm-3'><?= $form->field($model, 'isBike')->checkbox() ?></div>
+    <div class='col-sm-3'><?= $form->field($model, 'isPed')->checkbox() ?></div>
+</div>
+
+ <?= $form->field($model, 'approverComments')->textarea(['rows' => 3]) ?>
 
 <?php if(!($model->approveDate)) { ?>
     <label for="approve" style='color: green;'>

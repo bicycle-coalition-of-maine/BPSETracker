@@ -62,9 +62,9 @@ $config = [
                 'controllers' => ['site'],
                 'actions' => ['index', 'login'],
             ],
-            [   // Allow all users all pages in the request controller
+            [   // Allow all users all pages in the request and invoice-sub controllers
                 'allow' => true,
-                'controllers' => ['request']
+                'controllers' => ['request', 'invoice-sub']
             ],
                 // TO DO: Allow all users all pages in the instructor invoice form
             [   // Allow all else only to authenticated users

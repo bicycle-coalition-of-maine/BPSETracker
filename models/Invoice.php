@@ -17,6 +17,9 @@ use Yii;
  * @property int $presentees
  * @property int $miles
  * @property string $milesPurpose
+ * @property bool $isBike
+ * @property bool $isPed
+ * @property bool $isSchool
  * @property string $invoiceAmount
  * @property string $approveDate
  * @property int $fkApproverID
@@ -47,6 +50,7 @@ class Invoice extends \yii\db\ActiveRecord
             [['fkEventID', 'fkPersonID', 'hours', 'presentations', 'presentees', 'miles', 'fkApproverID', 'fkRateRequested'], 'integer'],
             [['invoiceDate', 'approveDate'], 'safe'],
             [['hourlyrate', 'invoiceAmount'], 'number'],
+            [['isBike', 'isPed', 'isSchool'], 'boolean'],
             [['submitterComments', 'approverComments'], 'string'],
             [['milesPurpose'], 'string', 'max' => 100],
             [['fkEventID'], 'exist', 'skipOnError' => true, 'targetClass' => Event::className(), 'targetAttribute' => ['fkEventID' => 'pkEventID']],
@@ -70,6 +74,9 @@ class Invoice extends \yii\db\ActiveRecord
             'presentees' => 'Presentees',
             'miles' => 'Miles',
             'milesPurpose' => 'Miles Purpose',
+            'isBike' => 'Is Bike',
+            'isPed' => 'Is Ped',
+            'isSchool' => 'At a School?',
             'fkApproverID' => 'Approved By',
             'invoiceAmount' => 'Invoice Amount',
             'approveDate' => 'Approved On',

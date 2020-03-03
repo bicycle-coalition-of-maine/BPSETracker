@@ -99,14 +99,25 @@ class Globals extends Component
     }
     
     /*
-     * Takes parallel label and value arrays, keyed by sequential number, and outputs html table
+     * Takes parallel label and value arrays and outputs an html table. 
+     * The paramaters are as they are so that a model's attributeLabels() array 
+     * can be used as the second. (If not for that, yes, a plain associative
+     * array would be simpler.)
+     * 
+     * An optional class name may be provided, which will be attached to the 
+     * table tag. Also, alternating rows will be tagged with class names "row0"
+     * and "row1", in case the caller wants to style alternating rows.
+     * 
      */
-    function formatAsHTMLTable(array $arrValues, array $arrLabels)
+    function formatAsHTMLTable(array $arrValues, array $arrLabels, $classname = '')
     {
-        $return = '';
-        foreach(array_keys($arrValues) as $key)
-            $return .= "<tr valign='top'><td><b>{$arrLabels[$key]}</b></td><td>{$arrValues[$key]}</td></tr>";
-        return "<table>$return</table>";
+        $return = ($classname ? "<table class='$classname'>" : '<table>');
+        $row = 0;
+        foreach(array_keys($arrValues) as $key) {
+            $return .= "<tr class='row$row'><td><b>{$arrLabels[$key]}</b></td><td>{$arrValues[$key]}</td></tr>";            
+            $row = ++$row % 2;
+        }
+        return $return . '</table>';
     }
 
     // Wrap HTML content in a Bootstrap "col-sm-x" column class

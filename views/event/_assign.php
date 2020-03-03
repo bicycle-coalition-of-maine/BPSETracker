@@ -76,14 +76,16 @@ foreach ($instructors->getModels() as $iModel) {
     </div>
     
     <div class='row'>
-        <div class='col-sm-3'>
-            <?= $form->field($model, 'presentations_actual'); ?>
-        </div>
-        <div class='col-sm-3'>
-            <?= $form->field($model, 'participation_actual'); ?>
-        </div>
-    </div>        
-    
+        <?= Yii::$app->globals->wrapInColumn(3, $form->field($model, 'presentations_actual')) ?>
+        <?= Yii::$app->globals->wrapInColumn(3, $form->field($model, 'participation_actual')) ?>
+    </div>
+            
+    <div class='row'>
+        <?= Yii::$app->globals->wrapInColumn(3, $form->field($model, 'isSchool')->checkbox()) ?>
+        <?= Yii::$app->globals->wrapInColumn(3, $form->field($model, 'isBike')->checkbox()) ?>
+        <?= Yii::$app->globals->wrapInColumn(3, $form->field($model, 'isPed')->checkbox()) ?>
+    </div>
+
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]); ?>    
 
 </div>

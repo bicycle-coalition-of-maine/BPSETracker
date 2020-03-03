@@ -56,7 +56,7 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Admin', 'url' => ['/site/login']],
-                    ['label' => 'Invoice', 'url' => ['/site/invoice']],
+                    ['label' => 'Invoice', 'url' => ['/invoice-sub/index']],
                 ]
             ]);
     else        
