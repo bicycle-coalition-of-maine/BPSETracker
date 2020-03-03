@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\Models\CityCounty;
+use app\models\CityCounty;
 
 /**
  * CityCountySearch represents the model behind the search form of `app\Models\CityCounty`.
