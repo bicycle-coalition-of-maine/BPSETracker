@@ -106,6 +106,7 @@ CREATE TABLE `event` (
   `fkInstructorId` smallint(6) DEFAULT NULL,
   `participation_actual` smallint(6) DEFAULT NULL,
   `presentations_actual` tinyint(4) DEFAULT NULL,
+  `isSchool` bit(1) DEFAULT b'0',
   PRIMARY KEY (`pkEventID`),
   KEY `fkEvent2Org` (`fkOrgID`),
   KEY `fkEvent2Person` (`fkPersonID`),
@@ -115,7 +116,7 @@ CREATE TABLE `event` (
   CONSTRAINT `fkEvent2Instr` FOREIGN KEY (`fkInstructorId`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkEvent2Org` FOREIGN KEY (`fkOrgID`) REFERENCES `organization` (`pkOrgID`),
   CONSTRAINT `fkEvent2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=928 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=967 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,6 +433,9 @@ CREATE TABLE `invoice` (
   `fkRateRequested` smallint(6) DEFAULT NULL,
   `submitterComments` text,
   `approverComments` text,
+  `isBike` bit(1) DEFAULT b'1',
+  `isPed` bit(1) DEFAULT b'1',
+  `isSchool` bit(1) DEFAULT b'0',
   PRIMARY KEY (`pkInvoiceID`),
   KEY `fkInvoice2Event` (`fkEventID`),
   KEY `fkInvoice2Instructor` (`fkPersonID`) USING BTREE,
@@ -441,7 +445,7 @@ CREATE TABLE `invoice` (
   CONSTRAINT `fkInvoice2Event` FOREIGN KEY (`fkEventID`) REFERENCES `event` (`pkEventID`),
   CONSTRAINT `fkInvoice2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkInvoice2Rate` FOREIGN KEY (`fkRateRequested`) REFERENCES `rate` (`pkRateID`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -475,7 +479,7 @@ CREATE TABLE `organization` (
   `zipcode` varchar(10) DEFAULT NULL,
   `county` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`pkOrgID`)
-) ENGINE=InnoDB AUTO_INCREMENT=466 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -504,7 +508,7 @@ CREATE TABLE `person` (
   `isAdmin` bit(1) NOT NULL DEFAULT b'0',
   `password` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=495 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -551,4 +555,4 @@ CREATE TABLE `staffing` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-01 10:16:20
+-- Dump completed on 2020-03-04  7:42:44

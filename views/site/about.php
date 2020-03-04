@@ -14,7 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <img src='images/BCMLogo.png'>
         </div>
         <div class='col-sm-10'>
-            <h1><?= Html::encode($this->title) ?></h1>
+            <h1 style='text-align: center;'><?= Html::encode($this->title) ?></h1>
+            <h2 style='text-align: center;'>GitHub Release 
+                <a href='https://github.com/bicycle-coalition-of-maine/BPSETracker/releases/tag/v1.2.2' target='_blank'>v1.2.2</a>
+            </h2>
         </div>
     </div>
     

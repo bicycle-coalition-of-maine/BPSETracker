@@ -81,7 +81,7 @@ class InvoiceSubController extends Controller {
             . " FROM event E"
             . " INNER JOIN organization O ON O.pkOrgID = E.fkOrgID"
             . " INNER JOIN staffing S ON S.fkEventID = E.pkEventID"
-            . " INNER JOIN person P ON p.pkPersonID = S.fkPersonID"
+            . " INNER JOIN person P ON P.pkPersonID = S.fkPersonID"
             . " INNER JOIN event_event_type EET ON EET.fkEventID = E.pkEventID"
             . " INNER JOIN event_type ET ON ET.pkEventTypeID = EET.fkEventTypeID"
             . " LEFT JOIN invoice I ON I.fkEventID = E.pkEventID"
