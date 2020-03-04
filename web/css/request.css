@@ -1,0 +1,13 @@
+/* Stylesheet for public request views */
+
+table.request { border: 2px solid #AAA; }
+
+table.request tr { border-bottom: 1px solid #AAA; }
+
+table.request tr.row1 { background-color: #EEE; }
+
+table.request td { padding: 2px; padding-right: 1em; }
+
+td.pad { padding: 10px; }
+
+.calc { border: 0; text-align: right; }

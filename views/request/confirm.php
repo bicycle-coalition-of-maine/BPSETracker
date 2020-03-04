@@ -9,6 +9,8 @@ use app\models\Request;
 
 $this->title = $title;
 
+$this->registerCSSFile('/css/request.css');
+
 ?>
 
 <div class='request-confirm'>

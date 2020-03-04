@@ -455,7 +455,8 @@ class RequestController extends Controller
             'proposedDates' => $event->datetimes,
             'additionalInfo' => $event->comments,
             ],
-            $model->attributeLabels()
+            $model->attributeLabels(),
+            'request'
         );        
     }
 }
