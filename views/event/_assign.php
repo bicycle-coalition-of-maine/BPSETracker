@@ -15,6 +15,14 @@ foreach ($instructors->getModels() as $iModel) {
             //= "{$iModel['county']} County: {$iModel['lastName']}, {$iModel['firstName']}, {$iModel['city']} ({$iModel['email']}, {$fmtPhone})";
 }
 
+if(count($model->errors)) {
+    echo "<p style='color:red; font-weight: bold;'>Errors:</p><ul style='color: red;'>";
+    foreach(array_keys($model->errors) as $key)
+        for($i = 0; $i < count($model->errors[$key]); ++$i)
+            echo "<li>{$model->errors[$key][$i]}</li>";
+    echo "</ul>";
+}
+
 ?>
 
 <div class="event-form">

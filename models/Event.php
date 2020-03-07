@@ -90,10 +90,10 @@ class Event extends \yii\db\ActiveRecord
             [['eventDate'], 'date', 'format' => 'yyyy-MM-dd'],
             
             [['startTime'], 'filter', 'filter' => function($value) { return $value ? date('H:i:00', strtotime($value)) : null; }],
-            [['startTime'], 'time', 'format' => 'H:i:s'],
+            //[['startTime'], 'time', 'format' => 'H:i:s'],  // Neither format string I thought should work is working
 
             [['endTime'], 'filter', 'filter' => function($value) { return $value ? date('H:i:00', strtotime($value)) : null; }],
-            [['endTime'],   'time', 'format' => 'H:i:s'],        
+            //[['endTime'],   'time', 'format' => 'h:mm a'], // Neither format string I thought should work is working        
             
             [['fkEventAgeID'], 'exist', 'skipOnError' => true, 'targetClass' => EventAge::className(), 'targetAttribute' => ['fkEventAgeID' => 'pkEventAgeID']],
             [['fkOrgID'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['fkOrgID' => 'pkOrgID']],
