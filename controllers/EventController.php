@@ -329,7 +329,7 @@ class EventController extends Controller
 	 */
 	public function actionRequests()
 	{
-            //$where = 'YEAR(requestDateTime) >= 2018'; // development only
+            $where = '';
             if(Yii::$app->request->get('showAll') != '1') 
                 $where = ' NOT EXISTS ( SELECT pkStaffingID FROM staffing WHERE fkEventID = event.pkEventID )';
                 //$where .= ' AND NOT EXISTS ( SELECT pkStaffingID FROM staffing WHERE fkEventID = event.pkEventID )';
