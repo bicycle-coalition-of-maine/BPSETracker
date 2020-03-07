@@ -219,7 +219,7 @@ class EventController extends Controller
                 ->orderBy('lastName, firstName')
                 ->column(),
             'orgs' => Organization::find()
-                ->select('name')
+                ->select(["CONCAT(name, '; ', address1, '; ', city, '; ', zipcode, '; ', county)"])
                 ->indexBy('pkOrgID')
                 ->orderBy('name')
                 ->column(),

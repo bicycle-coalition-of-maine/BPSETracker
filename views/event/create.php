@@ -9,6 +9,8 @@ use yii\widgets\ActiveForm;
 $this->title = 'Create Event';
 $this->params['breadcrumbs'][] = ['label' => 'Events', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile('/js/EventUpdate.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 <div class="event-create">
 

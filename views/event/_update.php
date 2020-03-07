@@ -32,6 +32,8 @@ use app\models\CityCounty;
     </div>
 </div>
 
+<?= $form->field($model, 'isAtOrgAddress')->checkbox() ?>
+
 <?= $form->field($model, 'address1')->textInput(['maxlength' => true]) ?>
 
 <?= $form->field($model, 'address2')->textInput(['maxlength' => true]) ?>
@@ -56,8 +58,6 @@ use app\models\CityCounty;
         <br><br><a href='<?= Yii::$app->urlManager->createURL(['city-county']) ?>' target='_blank'>City/County List</a>
     </div>
 </div>
-
-<?= $form->field($model, 'isAtOrgAddress')->checkbox() ?>
 
 <?= $form->field($model, 'fkPersonID')->dropDownList($eventContact) ?>
 
