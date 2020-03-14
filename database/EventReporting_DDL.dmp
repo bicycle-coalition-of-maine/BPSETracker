@@ -116,7 +116,7 @@ CREATE TABLE `event` (
   CONSTRAINT `fkEvent2Instr` FOREIGN KEY (`fkInstructorId`) REFERENCES `person` (`pkPersonID`),
   CONSTRAINT `fkEvent2Org` FOREIGN KEY (`fkOrgID`) REFERENCES `organization` (`pkOrgID`),
   CONSTRAINT `fkEvent2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=967 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=977 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,7 +421,7 @@ CREATE TABLE `invoice` (
   `fkEventID` smallint(6) NOT NULL,
   `fkPersonID` smallint(6) NOT NULL,
   `invoiceDate` datetime NOT NULL,
-  `hours` tinyint(4) NOT NULL,
+  `hours` decimal(3,1) DEFAULT NULL,
   `hourlyrate` decimal(4,2) DEFAULT NULL,
   `presentations` tinyint(4) NOT NULL,
   `presentees` smallint(6) NOT NULL,
@@ -479,7 +479,7 @@ CREATE TABLE `organization` (
   `zipcode` varchar(10) DEFAULT NULL,
   `county` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`pkOrgID`)
-) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=479 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -543,7 +543,7 @@ CREATE TABLE `staffing` (
   KEY `fkStaffing2Person` (`fkPersonID`),
   CONSTRAINT `fkStaffing2Event` FOREIGN KEY (`fkEventID`) REFERENCES `event` (`pkEventID`),
   CONSTRAINT `fkStaffing2Person` FOREIGN KEY (`fkPersonID`) REFERENCES `person` (`pkPersonID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2453 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2457 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -555,4 +555,4 @@ CREATE TABLE `staffing` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-04  7:42:44
+-- Dump completed on 2020-03-14 19:37:02

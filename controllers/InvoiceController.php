@@ -43,7 +43,7 @@ class InvoiceController extends Controller
      */
     public function actionIndex()
     {
-        $query = Invoice::find();
+        $query = Invoice::find()->orderBy('pkInvoiceID DESC');
         if(Yii::$app->request->get('show') == 'N') {
             $query = $query->where('approveDate IS NULL');
         }
