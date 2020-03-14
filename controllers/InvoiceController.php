@@ -363,13 +363,15 @@ class InvoiceController extends Controller
                 'Comments',
             ]
         );
-                
-        Yii::$app->mailer->compose()
+
+        // Email result saved in session variable in case debugging is necessary
+        Yii::$app->session->set('emResult',
+            Yii::$app->mailer->compose()
             ->setFrom($from)
             ->setTo($to)
             ->setCc($cc)
             ->setSubject($subject)
             ->setHtmlBody($body)
-            ->send();        
+            ->send());        
     }
 }

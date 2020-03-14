@@ -29,6 +29,7 @@ $this->registerJsFile('/js/InvoiceSubConfirm.js', ['depends' => [\yii\web\Jquery
     <?php if(Yii::$app->session->get('ns')) {
         echo "<p style='color: red;'>There was a problem saving your "
         . "information. Please try again, or contact the Bicycle Coalition.</p>";
+        print_r(Yii::$app->session->get('invSaveErr'));
         Yii::$app->session->remove('ns');
     } ?>
     

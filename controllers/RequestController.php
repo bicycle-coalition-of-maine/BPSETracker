@@ -373,16 +373,15 @@ class RequestController extends Controller
                             );
 
             $emailBody = $this->formatAsHTMLTable($model, $event);
-            $emailBody .= "<p>copyMe = '{$model->copyMe}'</p>";
 
             $message = Yii::$app->mailer->compose()
-                ->setFrom('donotreply@bikemaine.org')
+                ->setFrom(['donotreply@bikemaine.org' => 'BPSE Tracking System'])
                 ->setTo($to)
                 ->setSubject($subject)
                 ->setHtmlBody($emailBody);
 
             if(count($cc))
-                $message->setCc($model->email);
+                $message->setCc($cc);
             
             $message->send();
             

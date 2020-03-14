@@ -202,7 +202,7 @@ class InvoiceSubController extends Controller {
                     // Create and send the message
                                     
                     $message = Yii::$app->mailer->compose()
-                        ->setFrom('donotreply@bikemaine.org')
+                        ->setFrom(['donotreply@bikemaine.org' => 'BPSE Tracking System'])
                         ->setTo($to)
                         ->setCC($cc)
                         ->setSubject($subject)
@@ -212,7 +212,10 @@ class InvoiceSubController extends Controller {
                     return $this->redirect(['complete']);
                 }
                 else
+                {
                     Yii::$app->session->set('ns', '1');
+                    Yii::$app->session->set('invSaveErr', $invoice->errors);
+                }
             }
             else // email does not match, set flag and fall back to confirmation
                 Yii::$app->session->set('nf', '1');

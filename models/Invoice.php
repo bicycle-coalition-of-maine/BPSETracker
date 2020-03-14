@@ -47,9 +47,9 @@ class Invoice extends \yii\db\ActiveRecord
     {
         return [
  	    [['fkEventID', 'fkPersonID', 'invoiceDate', 'hours', 'presentations', 'presentees', 'miles', 'invoiceAmount'], 'required'],
-            [['fkEventID', 'fkPersonID', 'hours', 'presentations', 'presentees', 'miles', 'fkApproverID', 'fkRateRequested'], 'integer'],
+            [['fkEventID', 'fkPersonID', 'presentations', 'presentees', 'miles', 'fkApproverID', 'fkRateRequested'], 'integer'],
             [['invoiceDate', 'approveDate'], 'safe'],
-            [['hourlyrate', 'invoiceAmount'], 'number'],
+            [['hours', 'hourlyrate', 'invoiceAmount'], 'number'],
             [['isBike', 'isPed', 'isSchool'], 'boolean'],
             [['submitterComments', 'approverComments'], 'string'],
             [['milesPurpose'], 'string', 'max' => 100],

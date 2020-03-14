@@ -17,7 +17,12 @@ $this->registerCSSFile('/css/request.css');
 
     <h1><?= $this->title ?></h1>
     
-    <p style='font-size: larger;'><?= $msg ?></p>
+    <p style='font-size: larger;'>
+        <?php 
+            echo $msg;
+            if($model->copyMe) echo "You should receive an email copy of this request.";
+        ?>
+    </p>
     
     <h2>Submitted information:</h2>
     
