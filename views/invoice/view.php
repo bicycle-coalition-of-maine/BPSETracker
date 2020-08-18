@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'Instructor',
                 'format' => 'raw',
                 'value' => function($data) {
-                    $url = Yii::$app->urlManager->createURL(['person/view', 'id' => $data->event->fkPersonID]);
+                    $url = Yii::$app->urlManager->createURL(['person/view', 'id' => $data->instructor->pkPersonID]);
                     return "<a href='$url'>{$data->instructor->firstName} {$data->instructor->lastName}</a>";
                 }
             ],
