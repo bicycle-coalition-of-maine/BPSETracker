@@ -19,10 +19,10 @@ use yii\helpers\Html;
         </h1>
     </p>
     
-<!--    <div class="jumbotron" style='padding-top: 15px; padding-bottom: 0;'>
-        <img src="/images/RequestBanner.jpg" class="img-rounded img-responsive">        
-        <h1 style="font-weight: bold;">Bicycle/Pedestrian Safety Education Request Form</h1>
-    </div>-->
+    <p style="text-align: center; font-weight: bold;">
+        Click here to start request<br>
+        <?= Html::a('REQUEST ASSISTANCE', ['request/index'], ['class' => 'btn btn-warning']) ?>
+    </p>
     
     <p><?= $intro ?></p>
     

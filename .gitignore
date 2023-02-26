@@ -34,3 +34,11 @@ tests/_support/_generated
 
 #vagrant folder
 /.vagrant
+
+# Database and email configuration
+config/db.php
+config/web.php
+
+# Backup, temporary, etc.
+*.bak
+
